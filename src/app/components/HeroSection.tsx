@@ -45,7 +45,7 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
         if (starsRef.current) {
           createShootingStar(starsRef.current);
         }
-      }, 4000);
+      }, 2000);
       
       // Cleanup function
       return () => {
@@ -62,21 +62,30 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
     const shootingStar = document.createElement('div');
     shootingStar.className = styles.shootingStar;
     
-    // Random position focusing on the top part of the screen
-    shootingStar.style.left = `${Math.random() * 80}%`;
-    shootingStar.style.top = `${Math.random() * 40}%`;
+    // Random vertical position across the entire hero height
+    shootingStar.style.top = `${Math.random() * 100}%`;
+    shootingStar.style.left = '0';
     
     // Random size (make some shooting stars larger)
     const width = Math.random() * 120 + 80;
     shootingStar.style.width = `${width}px`;
     shootingStar.style.height = `${Math.random() * 1.5 + 1}px`;
     
-    // Random rotation (between 30 and 60 degrees)
-    const rotation = Math.random() * 30 + 30;
-    shootingStar.style.transform = `rotate(${rotation}deg)`;
+    // No rotation needed for straight left-to-right movement
+    shootingStar.style.transform = 'rotate(0deg)';
+
+    // Alternative approach to ensure some stars appear at the bottom
+    const bottomBias = Math.random() > 0.5;
+    if (bottomBias) {
+    // Place in bottom half (50%-100%)
+    shootingStar.style.top = `${50 + Math.random() * 50}%`;
+    } else {
+    // Place anywhere (0%-100%)
+    shootingStar.style.top = `${Math.random() * 100}%`;
+    }
     
-    // Random delay and duration
-    const duration = Math.random() * 2 + 1;
+    // Random duration and delay
+    const duration = Math.random() * 3 + 2;
     shootingStar.style.animationDuration = `${duration}s`;
     shootingStar.style.animationDelay = `${Math.random() * 5}s`;
     
@@ -107,29 +116,29 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
       <div className="absolute inset-0 bg-black/40 z-1"></div>
       
       <div className={styles.content}>
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-16">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center justify-center">
             {/* Space-themed Animated Profile */}
-            <div className="flex justify-center mb-8 md:mb-0">
+            <div className="flex justify-center mb-2">
               <SpaceAnimation />
             </div>
             
             {/* Text content */}
-            <div className="md:max-w-lg text-white text-center md:text-left">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">My Portfolio</h1>
-              <p className="text-xl max-w-xl mb-8 text-white/80">
+            <div className="w-full text-white text-center">
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4">My Portfolio</h1>
+              <p className="text-lg md:text-xl mx-auto max-w-xl mb-6 md:mb-8 text-white/80">
                 Discover my creative work and projects that showcase my skills in design and development.
               </p>
-              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+              <div className="flex flex-wrap gap-4 justify-center">
                 <a 
                   href="#projects" 
-                  className="px-8 py-3 bg-white text-black font-medium rounded-md hover:bg-opacity-90 transition-all hover:shadow-lg"
+                  className="px-6 py-2 md:px-8 md:py-3 bg-white text-black font-medium rounded-md hover:bg-opacity-90 transition-all hover:shadow-lg"
                 >
                   View My Work
                 </a>
                 <a 
                   href="#contact" 
-                  className="px-8 py-3 border border-white text-white font-medium rounded-md hover:bg-white/10 transition-all hover:shadow-lg"
+                  className="px-6 py-2 md:px-8 md:py-3 border border-white text-white font-medium rounded-md hover:bg-white/10 transition-all hover:shadow-lg"
                 >
                   Contact Me
                 </a>

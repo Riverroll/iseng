@@ -1,10 +1,67 @@
+/* Add or update these styles in your SpaceHero.module.css file */
+
 .heroContainer {
     position: relative;
-    min-height: 80vh;
+    min-height: 100vh;
     width: 100%;
     overflow: hidden;
     display: flex;
     align-items: center;
+  }
+  
+  .content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile {
+    position: relative;
+    height: 180px;
+    width: 180px;
+    animation: float 4s infinite ease-in-out;
+    z-index: 10;
+    margin-bottom: 8px;
+  }
+  
+  .spaceContainer {
+    position: relative;
+    height: 220px; /* Reduced from 300px */
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  /* Media query for mobile devices */
+  @media (max-width: 768px) {
+    .heroContainer {
+      min-height: 85vh;
+    }
+    
+    .spaceContainer {
+      height: 200px;
+      margin-bottom: 0;
+    }
+    
+    .profile {
+      height: 150px;
+      width: 150px;
+    }
+    
+    .front {
+      height: 150px !important;
+      width: 150px !important;
+    }
+    
+    .content {
+      padding-top: 0;
+      padding-bottom: 16px;
+    }
   }
   
   .starsBackground {
@@ -49,7 +106,7 @@
   
   @keyframes shooting {
     0% {
-      transform: translateX(-100px) translateY(50px);
+      transform: translateX(-100px) translateY(0);
       opacity: 0;
     }
     5% {
@@ -58,8 +115,8 @@
     40% {
       opacity: 1;
     }
-    60% {
-      transform: translateX(500px) translateY(-400px);
+    90% {
+      transform: translateX(calc(100vw + 100px)) translateY(0);
       opacity: 0;
     }
     100% {
