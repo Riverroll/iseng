@@ -1,11 +1,13 @@
-// src/app/layout.tsx
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import './globals.css';
 
 export const metadata = {
-  title: 'Your Portfolio',
-  description: 'Apple-inspired parallax portfolio',
+  title: 'Val',
+  description: 'Val Portofolio',
+  icons: {
+    icon: '/favicon.ico', // Ensure favicon is inside the `public/` folder
+  },
 };
 
 export default function RootLayout({

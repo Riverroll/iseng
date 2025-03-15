@@ -1,0 +1,369 @@
+@import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+
+.heroContainer {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  max-height: 800px;
+  height: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Cards layout - updated for square certificates */
+.cardsContainer {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Certificate row layout */
+.certificatesRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+  max-width: 80%;
+}
+
+/* Square certificate card styling */
+.certCard {
+  position: relative;
+  height: 250px;
+  width: 250px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.certCard.active {
+  height: 320px;
+  width: 320px;
+  z-index: 10;
+}
+
+.certCard:not(.active) {
+  opacity: 0.7;
+}
+
+.certCard:not(.active):hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.dimmedImage {
+  filter: brightness(0.7) blur(1px);
+}
+
+/* Navigation arrows */
+.navArrow {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  margin: 0 15px;
+  z-index: 20;
+}
+
+.navArrow:hover {
+  background: rgba(66, 180, 255, 0.4);
+  box-shadow: 0 0 15px rgba(66, 180, 255, 0.8);
+}
+
+/* Neon border for active certificate */
+.neonBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid rgba(0, 195, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 195, 255, 0.7);
+  pointer-events: none;
+  animation: pulseBorder 2s infinite ease-in-out;
+}
+
+@keyframes pulseBorder {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 195, 255, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(0, 195, 255, 1);
+  }
+}
+
+/* Player styling to match the reference image */
+.player {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  width: 60%;
+  max-width: 500px;
+  padding: 16px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  margin-top: 20px;
+}
+
+.playControls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.playIcon {
+  margin-right: 15px;
+  color: #42b4ff;
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.playIcon:hover {
+  background: rgba(66, 180, 255, 0.2);
+  box-shadow: 0 0 15px rgba(66, 180, 255, 0.8);
+}
+
+.certInfo {
+  flex-grow: 1;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  text-shadow: 0 0 5px rgba(66, 180, 255, 0.5);
+}
+
+.subtitle {
+  font-size: 14px;
+  line-height: 16px;
+  color: #a2d6ff;
+  margin-bottom: 4px;
+  text-shadow: 0 0 5px rgba(66, 180, 255, 0.5);
+}
+
+.timeDisplay {
+  font-size: 14px;
+  line-height: 16px;
+  color: #5b9eda;
+  font-weight: 500;
+  margin-left: 15px;
+}
+
+.progressBarContainer {
+  padding: 0 5px;
+}
+
+/* Updated progress bar with segments */
+.progressBar {
+  height: 4px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+  display: flex;
+}
+
+.progressSegment {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.progressSegment:not(:last-child) {
+  margin-right: 2px;
+}
+
+.progressSegment.completed {
+  background: linear-gradient(90deg, #42b4ff, #4286f4);
+}
+
+.progressSegment:hover {
+  transform: scaleY(1.5);
+}
+
+/* Space background elements */
+.starsBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.star {
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 50%;
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.shootingStar {
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,1) 100%);
+  opacity: 0;
+  filter: blur(1px);
+  animation: shooting 3s linear forwards;
+  z-index: 2;
+}
+
+@keyframes shooting {
+  0% {
+    transform: translateX(-100px) translateY(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(calc(100vw + 100px)) translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .certificatesRow {
+    max-width: 90%;
+    gap: 15px;
+  }
+  
+  .certCard {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .certCard.active {
+    width: 260px;
+    height: 260px;
+  }
+  
+  .player {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .certificatesRow {
+    max-width: 95%;
+    gap: 10px;
+  }
+  
+  .certCard {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .certCard.active {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .player {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardsContainer {
+    height: auto;
+    flex-direction: column;
+  }
+  
+  .certificatesRow {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  
+  .certCard {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .certCard.active {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .navArrow {
+    margin: 10px 0;
+  }
+  
+  .player {
+    width: 95%;
+  }
+  
+  .timeDisplay {
+    margin-left: 8px;
+  }
+}
