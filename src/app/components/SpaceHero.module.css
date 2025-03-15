@@ -7,27 +7,27 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-  }
+}
   
-  .content {
+.content {
     position: relative;
     z-index: 10;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
+}
   
-  .profile {
+.profile {
     position: relative;
     height: 180px;
     width: 180px;
     animation: float 4s infinite ease-in-out;
     z-index: 10;
     margin-bottom: 8px;
-  }
+}
   
-  .spaceContainer {
+.spaceContainer {
     position: relative;
     height: 220px; /* Reduced from 300px */
     width: 300px;
@@ -35,64 +35,68 @@
     justify-content: center;
     align-items: center;
     z-index: 10;
-  }
+}
   
-  /* Media query for mobile devices */
-  @media (max-width: 768px) {
+/* Media query for mobile devices */
+@media (max-width: 768px) {
     .heroContainer {
-      min-height: 85vh;
+        min-height: 85vh;
     }
     
     .spaceContainer {
-      height: 200px;
-      margin-bottom: 0;
+        height: 200px;
+        margin-bottom: 0;
     }
     
     .profile {
-      height: 150px;
-      width: 150px;
+        height: 150px;
+        width: 150px;
     }
     
     .front {
-      height: 150px !important;
-      width: 150px !important;
+        height: 150px !important;
+        width: 150px !important;
     }
     
     .content {
-      padding-top: 0;
-      padding-bottom: 16px;
+        padding-top: 0;
+        padding-bottom: 16px;
     }
-  }
+    
+    .photoWrapper, .photo {
+        height: 100%;
+        width: 100%;
+    }
+}
   
-  .starsBackground {
+.starsBackground {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
-  }
+}
   
-  .star {
+.star {
     position: absolute;
     background-color: #ffffff;
     border-radius: 50%;
     animation: twinkle 2s infinite ease-in-out;
-  }
+}
   
-  @keyframes twinkle {
+@keyframes twinkle {
     0%, 100% {
-      opacity: 0.2;
-      transform: scale(0.8);
+        opacity: 0.2;
+        transform: scale(0.8);
     }
     50% {
-      opacity: 1;
-      transform: scale(1);
+        opacity: 1;
+        transform: scale(1);
     }
-  }
+}
   
- /* Update only the shootingStar styles in your SpaceHero.module.css file */
-
+/* Update only the shootingStar styles in your SpaceHero.module.css file */
 .shootingStar {
     position: absolute;
     width: 100px;
@@ -102,56 +106,46 @@
     filter: blur(1px);
     animation: shooting 3s linear forwards;
     z-index: 2;
-  }
+}
   
-  @keyframes shooting {
+@keyframes shooting {
     0% {
-      transform: translateX(-100px) translateY(0);
-      opacity: 0;
+        transform: translateX(-100px) translateY(0);
+        opacity: 0;
     }
     5% {
-      opacity: 1;
+        opacity: 1;
     }
     40% {
-      opacity: 1;
+        opacity: 1;
     }
     90% {
-      transform: translateX(calc(100vw + 100px)) translateY(0);
-      opacity: 0;
+        transform: translateX(calc(100vw + 100px)) translateY(0);
+        opacity: 0;
     }
     100% {
-      opacity: 0;
+        opacity: 0;
     }
-  }
+}
   
-  .spaceContainer {
-    position: relative;
-    height: 300px;
-    width: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-  }
-  
-  .profile {
+.profile {
     position: relative;
     height: 180px;
     width: 180px;
     animation: float 4s infinite ease-in-out;
     z-index: 10;
-  }
+}
   
-  @keyframes float {
+@keyframes float {
     0%, 100% {
-      transform: translateY(0);
+        transform: translateY(0);
     }
     50% {
-      transform: translateY(-15px);
+        transform: translateY(-15px);
     }
-  }
+}
   
-  .front {
+.front {
     position: absolute;
     height: 180px;
     width: 180px;
@@ -159,22 +153,24 @@
     overflow: hidden;
     box-shadow: 0 0 25px rgba(66, 134, 244, 0.8);
     border: 3px solid rgba(120, 180, 255, 0.6);
-  }
+}
   
-  .photoWrapper {
+.photoWrapper {
     width: 100%;
     height: 100%;
     border-radius: 50%;
     overflow: hidden;
-  }
+    position: relative;
+}
   
-  .photo {
+.photo {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-  }
+    object-fit: cover !important;
+    border-radius: 50%;
+}
   
-  .glow {
+.glow {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -182,20 +178,20 @@
     box-shadow: 0 0 60px 10px rgba(66, 220, 255, 0.4);
     opacity: 0.6;
     animation: pulse 4s infinite alternate;
-  }
+}
   
-  @keyframes pulse {
+@keyframes pulse {
     0% {
-      opacity: 0.4;
-      box-shadow: 0 0 40px 5px rgba(66, 220, 255, 0.4);
+        opacity: 0.4;
+        box-shadow: 0 0 40px 5px rgba(66, 220, 255, 0.4);
     }
     100% {
-      opacity: 0.7;
-      box-shadow: 0 0 70px 15px rgba(66, 220, 255, 0.6);
+        opacity: 0.7;
+        box-shadow: 0 0 70px 15px rgba(66, 220, 255, 0.6);
     }
-  }
+}
   
-  .rocket {
+.rocket {
     position: absolute;
     width: 50px;
     height: 50px;
@@ -204,27 +200,27 @@
     z-index: 20;
     transform: rotate(-45deg);
     animation: flyRocket 8s infinite linear;
-  }
+}
   
-  @keyframes flyRocket {
+@keyframes flyRocket {
     0% {
-      transform: translateX(0) translateY(0) rotate(-45deg);
+        transform: translateX(0) translateY(0) rotate(-45deg);
     }
     25% {
-      transform: translateX(-30px) translateY(30px) rotate(-35deg);
+        transform: translateX(-30px) translateY(30px) rotate(-35deg);
     }
     50% {
-      transform: translateX(-10px) translateY(60px) rotate(-45deg);
+        transform: translateX(-10px) translateY(60px) rotate(-45deg);
     }
     75% {
-      transform: translateX(30px) translateY(30px) rotate(-55deg);
+        transform: translateX(30px) translateY(30px) rotate(-55deg);
     }
     100% {
-      transform: translateX(0) translateY(0) rotate(-45deg);
+        transform: translateX(0) translateY(0) rotate(-45deg);
     }
-  }
+}
   
-  .rocketTrail {
+.rocketTrail {
     position: absolute;
     width: 12px;
     height: 35px;
@@ -234,22 +230,15 @@
     border-radius: 0 0 5px 5px;
     z-index: 15;
     animation: flicker 0.2s infinite alternate;
-  }
+}
   
-  @keyframes flicker {
+@keyframes flicker {
     0% {
-      opacity: 0.7;
-      height: 30px;
+        opacity: 0.7;
+        height: 30px;
     }
     100% {
-      opacity: 1;
-      height: 38px;
+        opacity: 1;
+        height: 38px;
     }
-  }
-  
-  .content {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-  }
-  
+}

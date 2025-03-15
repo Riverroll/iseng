@@ -14,6 +14,7 @@ export default function SpaceAnimation() {
               className={styles.photo}
               width={180}
               height={180}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
               priority
             />
           </div>
