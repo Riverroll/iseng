@@ -9,7 +9,7 @@ export default function SpaceAnimation() {
         <div className={styles.front}>
           <div className={styles.photoWrapper}>
             <Image 
-              src="/images/profilephoto.jpg" 
+              src="/images/profilephoto.JPG" 
               alt="Profile" 
               className={styles.photo}
               width={180}
