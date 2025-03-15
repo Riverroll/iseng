@@ -11,50 +11,53 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
   const starsRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
-    if (starsRef.current) {
-      // Clear existing stars first
-      starsRef.current.innerHTML = '';
+    if (!starsRef.current) return;
+    
+    // Store the ref value in a variable for cleanup function
+    const starsContainer = starsRef.current;
+    
+    // Clear existing stars first
+    starsContainer.innerHTML = '';
+    
+    // Create more stars for the whole hero section
+    for (let i = 0; i < 150; i++) {
+      const star = document.createElement('div');
+      star.className = styles.star;
       
-      // Create more stars for the whole hero section
-      for (let i = 0; i < 150; i++) {
-        const star = document.createElement('div');
-        star.className = styles.star;
-        
-        // Random position across entire hero
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        
-        // Random size
-        const size = Math.random() * 3 + 1;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        
-        // Random delay for animation
-        star.style.animationDelay = `${Math.random() * 5}s`;
-        
-        starsRef.current.appendChild(star);
-      }
+      // Random position across entire hero
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
       
-      // Add more shooting stars with better visibility
-      for (let i = 0; i < 5; i++) {
-        createShootingStar(starsRef.current);
-      }
+      // Random size
+      const size = Math.random() * 3 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
       
-      // Add a new shooting star every few seconds
-      const shootingStarInterval = setInterval(() => {
-        if (starsRef.current) {
-          createShootingStar(starsRef.current);
-        }
-      }, 2000);
+      // Random delay for animation
+      star.style.animationDelay = `${Math.random() * 5}s`;
       
-      // Cleanup function
-      return () => {
-        clearInterval(shootingStarInterval);
-        if (starsRef.current) {
-          starsRef.current.innerHTML = '';
-        }
-      };
+      starsContainer.appendChild(star);
     }
+    
+    // Add more shooting stars with better visibility
+    for (let i = 0; i < 5; i++) {
+      createShootingStar(starsContainer);
+    }
+    
+    // Add a new shooting star every few seconds
+    const shootingStarInterval = setInterval(() => {
+      if (starsContainer) {
+        createShootingStar(starsContainer);
+      }
+    }, 2000);
+    
+    // Cleanup function uses starsContainer instead of starsRef.current
+    return () => {
+      clearInterval(shootingStarInterval);
+      if (starsContainer) {
+        starsContainer.innerHTML = '';
+      }
+    };
   }, []);
   
   // Function to create and add a shooting star
@@ -99,7 +102,7 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
     }, (duration + 5) * 1000);
   };
 
-   return (
+  return (
     <div 
       className={styles.heroContainer}
       style={{ 
@@ -125,7 +128,7 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
             
             {/* Text content */}
             <div className="w-full text-white text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4">Val's Portfolio</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4">Val&apos;s Portfolio</h1>
               <p className="text-lg md:text-xl mx-auto max-w-xl mb-6 md:mb-8 text-white/80">
                 Discover my creative work and projects that showcase my skills in design and development.
               </p>
