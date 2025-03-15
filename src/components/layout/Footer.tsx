@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">YourName</h3>
+            <h3 className="text-xl font-bold mb-4">Val</h3>
             <p className="opacity-70">
               Creating elegant and interactive web experiences with a focus on design and performance.
             </p>
@@ -63,7 +63,7 @@ export default function Footer() {
         </div>
         
         <div className="mt-8 pt-8 border-t border-foreground/10 text-center">
-          <p className="opacity-70">© {currentYear} YourName. All rights reserved.</p>
+          <p className="opacity-70">© {currentYear} Val. All rights reserved.</p>
         </div>
       </div>
     </footer>
