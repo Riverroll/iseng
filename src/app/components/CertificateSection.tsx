@@ -34,48 +34,48 @@ interface ShootingStar {
 const certificates: Certificate[] = [
   {
     id: 1,
-    title: "Advanced Web Development",
-    issuer: "Tech Academy",
-    date: "2023",
+    title: "Data Science Bootcamp",
+    issuer: "Purwadhika",
+    date: "2024",
     imageUrl: "/images/c1.png",
     description: "Comprehensive course covering modern frontend frameworks."
   },
   {
     id: 2,
-    title: "Next.js Mastery",
-    issuer: "Frontend Masters",
+    title: "Magenta Certificate",
+    issuer: "Biro Klasifikasi Indonesia",
     date: "2024",
     imageUrl: "/images/c2.png",
     description: "Building performant applications with React and Next.js."
   },
   {
     id: 3,
-    title: "UI/UX Design Principles",
-    issuer: "Design Institute",
+    title: "Data Science Bootcamp Mini Course",
+    issuer: "RevoU",
     date: "2024",
     imageUrl: "/images/c3.png",
     description: "Creating intuitive and accessible user interfaces."
   },
   {
     id: 4,
-    title: "UI/UX Design Principles",
-    issuer: "Design Institute",
+    title: "Project Management",
+    issuer: "Dicoding",
     date: "2024",
     imageUrl: "/images/c4.png",
     description: "Creating intuitive and accessible user interfaces."
   },
   {
     id: 5,
-    title: "UI/UX Design Principles",
-    issuer: "Design Institute",
+    title: "Basic Coding",
+    issuer: "Dicoding",
     date: "2024",
     imageUrl: "/images/c5.png",
     description: "Creating intuitive and accessible user interfaces."
   },
   {
     id: 6,
-    title: "UI/UX Design Principles",
-    issuer: "Design Institute",
+    title: "Data Science Bootcamp",
+    issuer: "Udemy",
     date: "2024",
     imageUrl: "/images/c6.png",
     description: "Creating intuitive and accessible user interfaces."
@@ -85,7 +85,7 @@ const certificates: Certificate[] = [
 
 export default function SpaceCertificateCarousel() {
   const [selectedCertificate, setSelectedCertificate] = useState(1);
-  const [progress, setProgress] = useState(0);
+  // Removed unused variable progress declaration
   const [isPaused, setIsPaused] = useState(false);
   
   // State for stars and shooting stars - typed properly
@@ -131,6 +131,19 @@ export default function SpaceCertificateCarousel() {
     setShootingStars(newShootingStars);
   }, []); 
   
+  // Navigation handlers
+  const goToNext = () => {
+    const currentIndex = certificates.findIndex(cert => cert.id === selectedCertificate);
+    const nextIndex = (currentIndex + 1) % certificates.length;
+    setSelectedCertificate(certificates[nextIndex].id);
+  };
+  
+  const goToPrev = () => {
+    const currentIndex = certificates.findIndex(cert => cert.id === selectedCertificate);
+    const prevIndex = (currentIndex - 1 + certificates.length) % certificates.length;
+    setSelectedCertificate(certificates[prevIndex].id);
+  };
+  
   // Auto-rotate every 5 seconds if not paused
   useEffect(() => {
     if (!isPaused) {
@@ -140,14 +153,7 @@ export default function SpaceCertificateCarousel() {
       
       return () => clearTimeout(timer);
     }
-  }, [selectedCertificate, isPaused]);
-  
-  // Update progress bar based on selected certificate
-  useEffect(() => {
-    const currentIndex = certificates.findIndex(cert => cert.id === selectedCertificate);
-    const newProgress = ((currentIndex + 1) / certificates.length) * 100;
-    setProgress(newProgress);
-  }, [selectedCertificate]);
+  }, [selectedCertificate, isPaused, goToNext]); // Added goToNext to dependency array
   
   // Calculate visible certificates in the carousel
   const getVisibleCertificates = () => {
@@ -167,19 +173,6 @@ export default function SpaceCertificateCarousel() {
   
   const visibleCertificates = getVisibleCertificates();
   const currentCert = certificates.find(cert => cert.id === selectedCertificate)!;
-  
-  // Navigation handlers
-  const goToNext = () => {
-    const currentIndex = certificates.findIndex(cert => cert.id === selectedCertificate);
-    const nextIndex = (currentIndex + 1) % certificates.length;
-    setSelectedCertificate(certificates[nextIndex].id);
-  };
-  
-  const goToPrev = () => {
-    const currentIndex = certificates.findIndex(cert => cert.id === selectedCertificate);
-    const prevIndex = (currentIndex - 1 + certificates.length) % certificates.length;
-    setSelectedCertificate(certificates[prevIndex].id);
-  };
   
   // Direct navigation function
   const goToIndex = (id: number) => {
@@ -260,7 +253,7 @@ export default function SpaceCertificateCarousel() {
             
             {/* Visible certificates */}
             <div className={styles.certificatesRow}>
-              {visibleCertificates.map((cert, index) => (
+              {visibleCertificates.map((cert) => (
                 <div 
                   key={cert.id}
                   className={`${styles.certCard} ${cert.id === selectedCertificate ? styles.active : ''}`}
@@ -327,7 +320,7 @@ export default function SpaceCertificateCarousel() {
             
             <div className={styles.progressBarContainer}>
               <div className={styles.progressBar}>
-                {certificates.map((cert, index) => (
+                {certificates.map((cert) => (
                   <div 
                     key={cert.id}
                     className={`${styles.progressSegment} ${cert.id <= selectedCertificate ? styles.completed : ''}`}

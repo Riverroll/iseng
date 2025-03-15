@@ -113,7 +113,7 @@ export default function ContactSection() {
             </span>
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Ready to launch your next project into orbit? Send a transmission and let's explore new possibilities together.
+            Ready to launch your next project into orbit? Send a transmission and let&apos;s explore new possibilities together.
           </p>
           
           {/* Communication form styled as a space terminal */}
@@ -122,7 +122,8 @@ export default function ContactSection() {
               <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
               <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
               <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-              <div className="text-sm text-gray-400 ml-2">// COMMUNICATION_CONSOLE</div>
+              {/* COMMUNICATION_CONSOLE */}
+              <div className="text-sm text-gray-400 ml-2">COMMUNICATION_CONSOLE</div>
             </div>
             
             <form className="space-y-4">
@@ -167,7 +168,6 @@ export default function ContactSection() {
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
             </svg>
             Transmit Signal
-            <span className="ml-2 text-xs opacity-70">[SECURE]</span>
           </button>
           
           <div className="mt-8 text-sm text-blue-200/70 flex items-center justify-center">
