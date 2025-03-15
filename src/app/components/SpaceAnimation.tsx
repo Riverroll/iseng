@@ -12,9 +12,12 @@ export default function SpaceAnimation() {
               src="/images/profilephoto.JPG" 
               alt="Profile" 
               className={styles.photo}
-              width={180}
-              height={180}
-              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              fill={true}
+              style={{ 
+                objectFit: 'cover',
+                objectPosition: 'center',
+                borderRadius: '50%' 
+              }}
               priority
             />
           </div>

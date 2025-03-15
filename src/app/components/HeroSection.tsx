@@ -99,7 +99,7 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
     }, (duration + 5) * 1000);
   };
 
-  return (
+   return (
     <div 
       className={styles.heroContainer}
       style={{ 
