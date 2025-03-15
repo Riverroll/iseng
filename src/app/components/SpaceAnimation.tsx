@@ -1,6 +1,5 @@
-// src/app/components/SpaceAnimation.tsx
 "use client"
-import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import styles from './SpaceHero.module.css';
 
 export default function SpaceAnimation() {
@@ -9,10 +8,13 @@ export default function SpaceAnimation() {
       <div className={styles.profile}>
         <div className={styles.front}>
           <div className={styles.photoWrapper}>
-            <img 
+            <Image 
               src="/images/profilephoto.jpg" 
               alt="Profile" 
               className={styles.photo}
+              width={180}
+              height={180}
+              priority
             />
           </div>
         </div>

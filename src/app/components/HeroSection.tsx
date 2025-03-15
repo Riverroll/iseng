@@ -1,4 +1,3 @@
-// src/app/components/HeroSection.tsx (updated with full hero stars)
 "use client"
 import { useEffect, useRef } from 'react';
 import SpaceAnimation from './SpaceAnimation';
@@ -36,27 +35,60 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
         starsRef.current.appendChild(star);
       }
       
-      // Add a few shooting stars
-      for (let i = 0; i < 3; i++) {
-        const shootingStar = document.createElement('div');
-        shootingStar.className = styles.shootingStar;
-        
-        // Random position and delay
-        shootingStar.style.left = `${Math.random() * 80}%`;
-        shootingStar.style.top = `${Math.random() * 60}%`;
-        shootingStar.style.animationDelay = `${Math.random() * 15}s`;
-        
-        starsRef.current.appendChild(shootingStar);
+      // Add more shooting stars with better visibility
+      for (let i = 0; i < 5; i++) {
+        createShootingStar(starsRef.current);
       }
+      
+      // Add a new shooting star every few seconds
+      const shootingStarInterval = setInterval(() => {
+        if (starsRef.current) {
+          createShootingStar(starsRef.current);
+        }
+      }, 4000);
+      
+      // Cleanup function
+      return () => {
+        clearInterval(shootingStarInterval);
+        if (starsRef.current) {
+          starsRef.current.innerHTML = '';
+        }
+      };
     }
-    
-    // Cleanup function
-    return () => {
-      if (starsRef.current) {
-        starsRef.current.innerHTML = '';
-      }
-    };
   }, []);
+  
+  // Function to create and add a shooting star
+  const createShootingStar = (container: HTMLDivElement) => {
+    const shootingStar = document.createElement('div');
+    shootingStar.className = styles.shootingStar;
+    
+    // Random position focusing on the top part of the screen
+    shootingStar.style.left = `${Math.random() * 80}%`;
+    shootingStar.style.top = `${Math.random() * 40}%`;
+    
+    // Random size (make some shooting stars larger)
+    const width = Math.random() * 120 + 80;
+    shootingStar.style.width = `${width}px`;
+    shootingStar.style.height = `${Math.random() * 1.5 + 1}px`;
+    
+    // Random rotation (between 30 and 60 degrees)
+    const rotation = Math.random() * 30 + 30;
+    shootingStar.style.transform = `rotate(${rotation}deg)`;
+    
+    // Random delay and duration
+    const duration = Math.random() * 2 + 1;
+    shootingStar.style.animationDuration = `${duration}s`;
+    shootingStar.style.animationDelay = `${Math.random() * 5}s`;
+    
+    container.appendChild(shootingStar);
+    
+    // Remove the shooting star after animation completes
+    setTimeout(() => {
+      if (container.contains(shootingStar)) {
+        container.removeChild(shootingStar);
+      }
+    }, (duration + 5) * 1000);
+  };
 
   return (
     <div 
