@@ -266,7 +266,7 @@ export default function SpaceCertificateCarousel() {
                 <div
                   key={cert.id}
                   className={`${styles.certCard} ${cert.id === currentCert.id ? styles.active : ''}`}
-                  onClick={() => seekToIndex(certificates.findIndex(c => c.id === cert.id))}
+                  onClick={() => seekTo(certificates.findIndex(c => c.id === cert.id) * CERT_MS)}
                 >
                   <div className={styles.imageContainer}>
                     <Image 
@@ -361,7 +361,7 @@ export default function SpaceCertificateCarousel() {
                   <div
                     key={cert.id}
                     className={`${styles.dot} ${cert.id === currentCert.id ? styles.activeDot : ''}`}
-                    onClick={() => seekToIndex(i)}
+                    onClick={() => seekTo(i * CERT_MS)}
                   />
                 ))}
               </div>
