@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import styles from './SpaceCertificateCarousel.module.css';
 
@@ -83,101 +83,110 @@ const certificates: Certificate[] = [
   // Add your remaining certificates here
 ];
 
+const TOTAL_MS = 90000; // 1:30 total
+const CERT_MS = TOTAL_MS / certificates.length; // ms per certificate
+
+function formatTime(ms: number) {
+  const totalSec = Math.floor(ms / 1000);
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
 export default function SpaceCertificateCarousel() {
-  const [selectedCertificate, setSelectedCertificate] = useState(1);
-  // Removed unused variable progress declaration
+  const [activeCertIndex, setActiveCertIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  
-  // State for stars and shooting stars - typed properly
   const [stars, setStars] = useState<Star[]>([]);
   const [shootingStars, setShootingStars] = useState<ShootingStar[]>([]);
-  
-  // Generate stars and shooting stars only on client-side
+
+  // Refs for direct DOM updates — no re-render on every frame
+  const elapsedRef = useRef(0);
+  const lastTickRef = useRef(Date.now());
+  const rafRef = useRef(0);
+  const isPausedRef = useRef(false);
+  const fillRef = useRef<HTMLDivElement>(null);
+  const timeRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const currentCert = certificates[activeCertIndex];
+
   useEffect(() => {
-    // Generate stars
-    const newStars: Star[] = [];
-    for (let i = 0; i < 50; i++) {
-      const size = Math.random() * 3 + 1;
-      const left = Math.random() * 100;
-      const top = Math.random() * 100;
-      const delay = Math.random() * 2;
-      
-      newStars.push({
-        id: i,
-        size,
-        left,
-        top,
-        delay
-      });
-    }
-    setStars(newStars);
-    
-    // Generate shooting stars
-    const newShootingStars: ShootingStar[] = [];
-    for (let i = 0; i < 3; i++) {
-      const top = Math.random() * 80 + 10;
-      const delay = Math.random() * 5 + i * 3;
-      const duration = Math.random() * 2 + 2;
-      const angle = Math.random() * 20 - 10;
-      
-      newShootingStars.push({
-        id: i,
-        top,
-        delay,
-        duration,
-        angle
-      });
-    }
-    setShootingStars(newShootingStars);
-  }, []); 
-  
-  // Navigation handlers
-  const goToNext = () => {
-    const currentIndex = certificates.findIndex(cert => cert.id === selectedCertificate);
-    const nextIndex = (currentIndex + 1) % certificates.length;
-    setSelectedCertificate(certificates[nextIndex].id);
-  };
-  
-  const goToPrev = () => {
-    const currentIndex = certificates.findIndex(cert => cert.id === selectedCertificate);
-    const prevIndex = (currentIndex - 1 + certificates.length) % certificates.length;
-    setSelectedCertificate(certificates[prevIndex].id);
-  };
-  
-  // Auto-rotate every 5 seconds if not paused
+    setStars(Array.from({ length: 50 }, (_, i) => ({
+      id: i, size: Math.random() * 3 + 1,
+      left: Math.random() * 100, top: Math.random() * 100, delay: Math.random() * 2,
+    })));
+    setShootingStars(Array.from({ length: 3 }, (_, i) => ({
+      id: i, top: Math.random() * 80 + 10,
+      delay: Math.random() * 5 + i * 3, duration: Math.random() * 2 + 2, angle: Math.random() * 20 - 10,
+    })));
+  }, []);
+
+  // rAF loop — drives DOM directly, only sets React state when cert changes
   useEffect(() => {
-    if (!isPaused) {
-      const timer = setTimeout(() => {
-        goToNext();
-      }, 5000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [selectedCertificate, isPaused, goToNext]); // Added goToNext to dependency array
-  
-  // Calculate visible certificates in the carousel
-  const getVisibleCertificates = () => {
-    const currentIndex = certificates.findIndex(cert => cert.id === selectedCertificate);
-    
-    // Get indices for all visible certificates (previous 2, current, next 2)
-    const numCerts = certificates.length;
-    const visibleCerts = [];
-    
-    for (let i = -2; i <= 2; i++) {
-      const index = (currentIndex + i + numCerts) % numCerts;
-      visibleCerts.push(certificates[index]);
-    }
-    
-    return visibleCerts;
-  };
-  
+    const tick = () => {
+      if (!isPausedRef.current) {
+        const now = Date.now();
+        const delta = now - lastTickRef.current;
+        lastTickRef.current = now;
+
+        elapsedRef.current = (elapsedRef.current + delta) % TOTAL_MS;
+        const elapsed = elapsedRef.current;
+
+        // Update fill width directly on DOM
+        if (fillRef.current) {
+          fillRef.current.style.width = `${(elapsed / TOTAL_MS) * 100}%`;
+        }
+
+        // Update time text directly on DOM
+        if (timeRef.current) {
+          timeRef.current.textContent = `${formatTime(elapsed)} / 1:30`;
+        }
+
+        // Only trigger React re-render when cert actually changes
+        const newIndex = Math.floor(elapsed / CERT_MS) % certificates.length;
+        setActiveCertIndex(prev => prev !== newIndex ? newIndex : prev);
+      } else {
+        lastTickRef.current = Date.now();
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    lastTickRef.current = Date.now();
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  // Sync isPaused to ref so the loop can read it without re-subscribing
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
+
+  const seekTo = useCallback((ms: number) => {
+    elapsedRef.current = Math.max(0, Math.min(TOTAL_MS - 1, ms));
+    setActiveCertIndex(Math.floor(elapsedRef.current / CERT_MS) % certificates.length);
+  }, []);
+
+  const goToPrev = useCallback(() => {
+    seekTo(((activeCertIndex - 1 + certificates.length) % certificates.length) * CERT_MS);
+  }, [activeCertIndex, seekTo]);
+
+  const goToNext = useCallback(() => {
+    seekTo(((activeCertIndex + 1) % certificates.length) * CERT_MS);
+  }, [activeCertIndex, seekTo]);
+
+  const handleSeek = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!trackRef.current) return;
+    const rect = trackRef.current.getBoundingClientRect();
+    seekTo(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * TOTAL_MS);
+  }, [seekTo]);
+
+  const getVisibleCertificates = () =>
+    Array.from({ length: 5 }, (_, i) =>
+      certificates[(activeCertIndex + i - 2 + certificates.length) % certificates.length]
+    );
+
   const visibleCertificates = getVisibleCertificates();
-  const currentCert = certificates.find(cert => cert.id === selectedCertificate)!;
-  
-  // Direct navigation function
-  const goToIndex = (id: number) => {
-    setSelectedCertificate(id);
-  };
 
   return (
     <section id="certificates" className={styles.heroContainer}>
@@ -241,8 +250,8 @@ export default function SpaceCertificateCarousel() {
           {/* Cards container with updated layout */}
           <div className={styles.cardsContainer}>
             {/* Navigation arrow - previous */}
-            <button 
-              className={styles.navArrow} 
+            <button
+              className={styles.navArrow}
               onClick={goToPrev}
               aria-label="Previous certificate"
             >
@@ -254,10 +263,10 @@ export default function SpaceCertificateCarousel() {
             {/* Visible certificates */}
             <div className={styles.certificatesRow}>
               {visibleCertificates.map((cert) => (
-                <div 
+                <div
                   key={cert.id}
-                  className={`${styles.certCard} ${cert.id === selectedCertificate ? styles.active : ''}`}
-                  onClick={() => goToIndex(cert.id)}
+                  className={`${styles.certCard} ${cert.id === currentCert.id ? styles.active : ''}`}
+                  onClick={() => seekToIndex(certificates.findIndex(c => c.id === cert.id))}
                 >
                   <div className={styles.imageContainer}>
                     <Image 
@@ -265,10 +274,10 @@ export default function SpaceCertificateCarousel() {
                       alt={cert.title}
                       fill
                       style={{ objectFit: "cover" }}
-                      className={cert.id === selectedCertificate ? '' : styles.dimmedImage}
+                      className={cert.id === currentCert.id ? '' : styles.dimmedImage}
                     />
                   </div>
-                  {cert.id === selectedCertificate && (
+                  {cert.id === currentCert.id && (
                     <div className={styles.neonBorder}></div>
                   )}
                 </div>
@@ -276,8 +285,8 @@ export default function SpaceCertificateCarousel() {
             </div>
             
             {/* Navigation arrow - next */}
-            <button 
-              className={styles.navArrow} 
+            <button
+              className={styles.navArrow}
               onClick={goToNext}
               aria-label="Next certificate"
             >
@@ -313,20 +322,47 @@ export default function SpaceCertificateCarousel() {
                 </div>
               </div>
               
-              <div className={styles.timeDisplay}>
-                4:05
+              <div ref={timeRef} className={styles.timeDisplay}>
+                0:00 / 1:30
               </div>
             </div>
             
             <div className={styles.progressBarContainer}>
-              <div className={styles.progressBar}>
-                {certificates.map((cert) => (
-                  <div 
+              {/* Seekable track */}
+              <div
+                ref={trackRef}
+                className={styles.progressBarTrack}
+                onClick={handleSeek}
+                style={{ cursor: 'pointer' }}
+              >
+                {/* Segment markers */}
+                {certificates.map((_, i) => i > 0 && (
+                  <div
+                    key={i}
+                    style={{
+                      position: 'absolute',
+                      left: `${(i / certificates.length) * 100}%`,
+                      top: 0,
+                      width: '1px',
+                      height: '100%',
+                      background: 'rgba(255,255,255,0.15)',
+                    }}
+                  />
+                ))}
+                <div
+                  ref={fillRef}
+                  className={styles.progressBarFill}
+                  style={{ width: '0%' }}
+                />
+              </div>
+              {/* Dot indicators */}
+              <div className={styles.dotIndicators}>
+                {certificates.map((cert, i) => (
+                  <div
                     key={cert.id}
-                    className={`${styles.progressSegment} ${cert.id <= selectedCertificate ? styles.completed : ''}`}
-                    style={{ width: `${100 / certificates.length}%` }}
-                    onClick={() => goToIndex(cert.id)}
-                  ></div>
+                    className={`${styles.dot} ${cert.id === currentCert.id ? styles.activeDot : ''}`}
+                    onClick={() => seekToIndex(i)}
+                  />
                 ))}
               </div>
             </div>

@@ -13,9 +13,7 @@
 .container {
   width: 100%;
   max-width: 1200px;
-  max-height: 800px;
   height: 100%;
-  transform-style: preserve-3d;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -24,7 +22,6 @@
   position: relative;
 }
 
-/* Cards layout - updated for square certificates */
 .cardsContainer {
   position: relative;
   width: 100%;
@@ -35,7 +32,6 @@
   align-items: center;
 }
 
-/* Certificate row layout */
 .certificatesRow {
   display: flex;
   justify-content: center;
@@ -45,31 +41,34 @@
   max-width: 80%;
 }
 
-/* Square certificate card styling */
 .certCard {
   position: relative;
   height: 250px;
   width: 250px;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
 }
 
 .certCard.active {
-  height: 320px;
-  width: 320px;
+  height: 330px;
+  width: 330px;
   z-index: 10;
 }
 
 .certCard:not(.active) {
-  opacity: 0.7;
+  opacity: 0.5;
+  filter: saturate(0.6);
+  transform: scale(0.95);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .certCard:not(.active):hover {
-  opacity: 0.9;
-  transform: scale(1.05);
+  opacity: 0.8;
+  transform: scale(1.0);
+  filter: saturate(1);
 }
 
 .imageContainer {
@@ -80,12 +79,13 @@
 }
 
 .dimmedImage {
-  filter: brightness(0.7) blur(1px);
+  filter: brightness(0.6);
+  transition: filter 0.5s ease;
 }
 
 /* Navigation arrows */
 .navArrow {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
   color: white;
   width: 40px;
   height: 40px;
@@ -94,62 +94,68 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255,255,255,0.1);
   margin: 0 15px;
   z-index: 20;
+  flex-shrink: 0;
 }
 
 .navArrow:hover {
-  background: rgba(66, 180, 255, 0.4);
-  box-shadow: 0 0 15px rgba(66, 180, 255, 0.8);
+  background: rgba(66, 180, 255, 0.25);
+  border-color: rgba(66, 180, 255, 0.5);
+  box-shadow: 0 0 16px rgba(66, 180, 255, 0.5);
+  transform: scale(1.08);
 }
 
 /* Neon border for active certificate */
 .neonBorder {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 2px solid rgba(0, 195, 255, 0.8);
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 195, 255, 0.7);
+  inset: 0;
+  border: 2px solid rgba(0, 195, 255, 0.7);
+  border-radius: 10px;
+  box-shadow: 0 0 18px rgba(0, 195, 255, 0.5), inset 0 0 18px rgba(0, 195, 255, 0.1);
   pointer-events: none;
-  animation: pulseBorder 2s infinite ease-in-out;
+  animation: pulseBorder 2.5s infinite ease-in-out;
 }
 
 @keyframes pulseBorder {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(0, 195, 255, 0.7);
+    box-shadow: 0 0 14px rgba(0, 195, 255, 0.5), inset 0 0 14px rgba(0, 195, 255, 0.05);
+    border-color: rgba(0, 195, 255, 0.7);
   }
   50% {
-    box-shadow: 0 0 25px rgba(0, 195, 255, 1);
+    box-shadow: 0 0 28px rgba(0, 195, 255, 0.9), inset 0 0 24px rgba(0, 195, 255, 0.15);
+    border-color: rgba(0, 195, 255, 1);
   }
 }
 
-/* Player styling to match the reference image */
+/* Player */
 .player {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
   width: 60%;
   max-width: 500px;
-  padding: 16px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 18px 20px;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: white;
   margin-top: 20px;
+  transition: box-shadow 0.4s ease;
+}
+
+.player:hover {
+  box-shadow: 0 0 30px rgba(66, 180, 255, 0.15);
 }
 
 .playControls {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .playIcon {
-  margin-right: 15px;
+  margin-right: 14px;
   color: #42b4ff;
   background: transparent;
   border: none;
@@ -159,76 +165,110 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .playIcon:hover {
   background: rgba(66, 180, 255, 0.2);
-  box-shadow: 0 0 15px rgba(66, 180, 255, 0.8);
+  box-shadow: 0 0 12px rgba(66, 180, 255, 0.7);
+  transform: scale(1.1);
 }
 
 .certInfo {
   flex-grow: 1;
+  min-width: 0;
 }
 
 .title {
   color: #ffffff;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 15px;
+  line-height: 1.3;
   font-weight: 600;
-  margin-bottom: 2px;
-  text-shadow: 0 0 5px rgba(66, 180, 255, 0.5);
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .subtitle {
-  font-size: 14px;
-  line-height: 16px;
-  color: #a2d6ff;
-  margin-bottom: 4px;
-  text-shadow: 0 0 5px rgba(66, 180, 255, 0.5);
+  font-size: 12px;
+  line-height: 1.3;
+  color: #7ec8f7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .timeDisplay {
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 12px;
   color: #5b9eda;
   font-weight: 500;
-  margin-left: 15px;
+  margin-left: 12px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }
 
+/* Smooth progress bar */
 .progressBarContainer {
-  padding: 0 5px;
+  padding: 0 2px;
 }
 
-/* Updated progress bar with segments */
-.progressBar {
-  height: 4px;
+.progressBarTrack {
+  height: 3px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
   overflow: hidden;
-  margin-top: 8px;
-  display: flex;
-}
-
-.progressSegment {
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.2);
+  margin-top: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
   position: relative;
 }
 
-.progressSegment:not(:last-child) {
-  margin-right: 2px;
+.progressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #42b4ff, #7de8ff);
+  border-radius: 99px;
+  box-shadow: 0 0 8px rgba(66, 180, 255, 0.7);
+  position: relative;
+  will-change: width;
 }
 
-.progressSegment.completed {
-  background: linear-gradient(90deg, #42b4ff, #4286f4);
+.progressBarFill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #7de8ff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(125, 232, 255, 0.9);
 }
 
-.progressSegment:hover {
-  transform: scaleY(1.5);
+/* Dot indicators */
+.dotIndicators {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.activeDot {
+  background: #42b4ff;
+  box-shadow: 0 0 6px rgba(66, 180, 255, 0.8);
+  transform: scale(1.3);
 }
 
 /* Space background elements */
@@ -249,14 +289,8 @@
 }
 
 @keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  0%, 100% { opacity: 0.15; transform: scale(0.8); }
+  50% { opacity: 0.9; transform: scale(1); }
 }
 
 .shootingStar {
@@ -271,99 +305,32 @@
 }
 
 @keyframes shooting {
-  0% {
-    transform: translateX(-100px) translateY(0);
-    opacity: 0;
-  }
-  5% {
-    opacity: 1;
-  }
-  40% {
-    opacity: 1;
-  }
-  90% {
-    transform: translateX(calc(100vw + 100px)) translateY(100px);
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
+  0% { transform: translateX(-100px); opacity: 0; }
+  5% { opacity: 1; }
+  40% { opacity: 1; }
+  90% { transform: translateX(calc(100vw + 100px)); opacity: 0; }
+  100% { opacity: 0; }
 }
 
-/* Responsive adjustments */
 @media (max-width: 1024px) {
-  .certificatesRow {
-    max-width: 90%;
-    gap: 15px;
-  }
-  
-  .certCard {
-    width: 200px;
-    height: 200px;
-  }
-  
-  .certCard.active {
-    width: 260px;
-    height: 260px;
-  }
-  
-  .player {
-    width: 80%;
-  }
+  .certificatesRow { max-width: 90%; gap: 15px; }
+  .certCard { width: 200px; height: 200px; }
+  .certCard.active { width: 270px; height: 270px; }
+  .player { width: 80%; }
 }
 
 @media (max-width: 768px) {
-  .certificatesRow {
-    max-width: 95%;
-    gap: 10px;
-  }
-  
-  .certCard {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .certCard.active {
-    width: 200px;
-    height: 200px;
-  }
-  
-  .player {
-    width: 90%;
-  }
+  .certificatesRow { max-width: 95%; gap: 10px; }
+  .certCard { width: 150px; height: 150px; }
+  .certCard.active { width: 210px; height: 210px; }
+  .player { width: 90%; }
 }
 
 @media (max-width: 480px) {
-  .cardsContainer {
-    height: auto;
-    flex-direction: column;
-  }
-  
-  .certificatesRow {
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px 0;
-  }
-  
-  .certCard {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .certCard.active {
-    width: 180px;
-    height: 180px;
-  }
-  
-  .navArrow {
-    margin: 10px 0;
-  }
-  
-  .player {
-    width: 95%;
-  }
-  
-  .timeDisplay {
-    margin-left: 8px;
-  }
+  .cardsContainer { height: auto; flex-direction: column; }
+  .certificatesRow { flex-wrap: wrap; justify-content: center; padding: 20px 0; }
+  .certCard { width: 120px; height: 120px; }
+  .certCard.active { width: 180px; height: 180px; }
+  .navArrow { margin: 10px 0; }
+  .player { width: 95%; }
 }

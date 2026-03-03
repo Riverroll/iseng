@@ -3,10 +3,10 @@ import { GeistMono } from 'geist/font/mono';
 import './globals.css';
 
 export const metadata = {
-  title: 'Val',
-  description: 'Val Portofolio',
+  title: 'Val — Portfolio',
+  description: 'Developer & Photographer based in Indonesia.',
   icons: {
-    icon: '/favicon.ico', // Ensure favicon is inside the `public/` folder
+    icon: '/favicon.ico',
   },
 };
 

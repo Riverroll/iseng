@@ -128,9 +128,9 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
             
             {/* Text content */}
             <div className="w-full text-white text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4">Val&apos;s Portfolio</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4">Val</h1>
               <p className="text-lg md:text-xl mx-auto max-w-xl mb-6 md:mb-8 text-white/80">
-                Discover my creative work and projects that showcase my skills in design and development.
+                Developer &amp; Photographer — building digital products and capturing moments.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <a 

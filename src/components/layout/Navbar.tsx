@@ -43,11 +43,11 @@ export default function Navbar() {
           <Link href="#about" className="hover:opacity-70 transition-opacity">
             About
           </Link>
-          <Link href="#certificates" className="hover:opacity-70 transition-opacity">
-            Certificates
-          </Link>
           <Link href="#projects" className="hover:opacity-70 transition-opacity">
             Projects
+          </Link>
+          <Link href="#certificates" className="hover:opacity-70 transition-opacity">
+            Certificates
           </Link>
           <Link href="#contact" className="hover:opacity-70 transition-opacity">
             Contact
@@ -69,15 +69,15 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md shadow-lg py-4">
           <div className="container mx-auto px-6 flex flex-col space-y-4">
-            <Link 
-              href="#about" 
+            <Link
+              href="#about"
               className="hover:opacity-70 transition-opacity py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </Link>
-            <Link 
-              href="#certificates" 
+            <Link
+              href="#certificates"
               className="hover:opacity-70 transition-opacity py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
