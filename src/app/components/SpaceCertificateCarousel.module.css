@@ -152,6 +152,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 14px;
+  min-width: 0;
 }
 
 .playIcon {
@@ -313,24 +314,70 @@
 }
 
 @media (max-width: 1024px) {
-  .certificatesRow { max-width: 90%; gap: 15px; }
-  .certCard { width: 200px; height: 200px; }
-  .certCard.active { width: 270px; height: 270px; }
+  .certificatesRow { max-width: 90%; gap: 14px; }
+  .certCard { width: 190px; height: 190px; }
+  .certCard.active { width: 260px; height: 260px; }
   .player { width: 80%; }
 }
 
+/* Tablet — hide the two outermost cards, show 3 */
 @media (max-width: 768px) {
-  .certificatesRow { max-width: 95%; gap: 10px; }
-  .certCard { width: 150px; height: 150px; }
-  .certCard.active { width: 210px; height: 210px; }
-  .player { width: 90%; }
+  .certificatesRow {
+    max-width: 100%;
+    gap: 12px;
+  }
+  .certCard { width: 130px; height: 130px; }
+  .certCard.active { width: 200px; height: 200px; }
+
+  /* Hide first and last card (indices 0 and 4) */
+  .certificatesRow > div:first-child,
+  .certificatesRow > div:last-child {
+    display: none;
+  }
+
+  .player { width: 92%; }
+  .cardsContainer { height: 260px; }
 }
 
+/* Mobile — show only active card + 1 neighbor each side */
 @media (max-width: 480px) {
-  .cardsContainer { height: auto; flex-direction: column; }
-  .certificatesRow { flex-wrap: wrap; justify-content: center; padding: 20px 0; }
-  .certCard { width: 120px; height: 120px; }
-  .certCard.active { width: 180px; height: 180px; }
-  .navArrow { margin: 10px 0; }
-  .player { width: 95%; }
+  .cardsContainer {
+    height: 220px;
+  }
+
+  .certificatesRow {
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  /* Hide outermost 2 cards — only active + immediate neighbors visible */
+  .certificatesRow > div:first-child,
+  .certificatesRow > div:last-child {
+    display: none;
+  }
+
+  .certCard { width: 100px; height: 100px; }
+  .certCard.active {
+    width: 175px;
+    height: 175px;
+  }
+
+  .navArrow {
+    width: 32px;
+    height: 32px;
+    margin: 0 6px;
+  }
+
+  .player { width: 95%; padding: 14px 12px; }
+
+  .title { font-size: 13px; }
+  .subtitle { font-size: 11px; }
+  .timeDisplay { font-size: 11px; }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .certCard { width: 80px; height: 80px; }
+  .certCard.active { width: 150px; height: 150px; }
+  .cardsContainer { height: 190px; }
 }
