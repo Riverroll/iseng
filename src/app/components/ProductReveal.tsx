@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
@@ -56,7 +57,7 @@ export default function ProductReveal({
     <div ref={sectionRef} className={`flex items-center justify-center px-4 py-12 ${className}`}>
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div ref={imageRef} className="w-full">
-          <img src={productImage} alt={title} className="w-full h-auto" />
+          <Image src={productImage} alt={title} width={600} height={400} className="w-full h-auto" />
         </div>
         <div ref={contentRef} className="space-y-6">
           <h2 className="text-4xl font-bold">{title}</h2>

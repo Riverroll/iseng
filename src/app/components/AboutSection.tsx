@@ -12,9 +12,16 @@ const skills = [
 export default function AboutSection() {
   return (
     <section id="about" className="py-20 relative overflow-hidden bg-[#0a0a0a]">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-violet-600/10 blur-[120px] animate-[drift1_18s_ease-in-out_infinite_alternate]" />
+        <div className="absolute -bottom-40 -right-20 w-[400px] h-[400px] rounded-full bg-cyan-500/8 blur-[100px] animate-[drift2_22s_ease-in-out_infinite_alternate]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-blue-600/6 blur-[80px] animate-[drift3_14s_ease-in-out_infinite_alternate]" />
+      </div>
+
       {/* Subtle grid */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.025]"
         style={{
           backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
           backgroundSize: "60px 60px",
@@ -29,8 +36,8 @@ export default function AboutSection() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-white/30 text-xs tracking-[0.3em] uppercase mb-2">About</p>
-          <h2 className="text-3xl md:text-4xl font-bold">Who I am</h2>
+          <p className="text-violet-400/60 text-xs tracking-[0.3em] uppercase mb-2">About</p>
+          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-white to-violet-300 bg-clip-text text-transparent">Who I am</h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
@@ -81,12 +88,17 @@ export default function AboutSection() {
 
             {/* Skills */}
             <div>
-              <p className="text-white/30 text-xs tracking-[0.2em] uppercase mb-3">Stack &amp; Tools</p>
+              <p className="text-violet-400/60 text-xs tracking-[0.2em] uppercase mb-3">Stack &amp; Tools</p>
               <div className="flex flex-wrap gap-2">
-                {skills.map((skill) => (
+                {skills.map((skill, i) => (
                   <span
                     key={skill}
-                    className="text-xs px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-white/70 hover:border-white/30 hover:text-white transition-colors"
+                    className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-300 hover:scale-105 ${
+                      i % 4 === 0 ? "bg-violet-500/10 border-violet-500/30 text-violet-300 hover:bg-violet-500/20 hover:border-violet-400/50" :
+                      i % 4 === 1 ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-400/50" :
+                      i % 4 === 2 ? "bg-blue-500/10 border-blue-500/30 text-blue-300 hover:bg-blue-500/20 hover:border-blue-400/50" :
+                      "bg-pink-500/10 border-pink-500/30 text-pink-300 hover:bg-pink-500/20 hover:border-pink-400/50"
+                    }`}
                   >
                     {skill}
                   </span>

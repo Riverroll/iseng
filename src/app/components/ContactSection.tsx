@@ -96,8 +96,11 @@ export default function ContactSection() {
         ))}
       </div>
       
-      {/* Deep space background - keep this for additional depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-indigo-900 via-purple-900 to-black z-0">
+      {/* Top fade — blends from Certificates */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0d0d1a] to-transparent z-[5] pointer-events-none" />
+
+      {/* Deep space background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d1a] via-indigo-900/80 to-black z-0">
         {/* Nebula effect */}
         <div className="absolute inset-0 bg-blue-500/5 mix-blend-screen backdrop-blur-3xl"></div>
         <div className="absolute left-1/4 top-1/4 w-1/2 h-1/2 bg-purple-500/10 rounded-full blur-3xl"></div>

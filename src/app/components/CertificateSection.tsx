@@ -189,7 +189,13 @@ export default function SpaceCertificateCarousel() {
   const visibleCertificates = getVisibleCertificates();
 
   return (
-    <section id="certificates" className={styles.heroContainer}>
+    <section id="certificates" className={styles.heroContainer} style={{ backgroundColor: '#0a0a0a' }}>
+      {/* Top fade — blends from Projects (#0a0a0a) */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#0a0a0a] to-transparent z-[5] pointer-events-none" />
+
+      {/* Bottom fade — blends into Contact (indigo-900 ≈ #1e1b4b) */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-[#0d0d1a] z-[5] pointer-events-none" />
+
       {/* Space background with stars */}
       <div className={styles.starsBackground}>
         {/* Render stars from state (client-side only) */}

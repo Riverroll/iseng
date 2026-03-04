@@ -9,20 +9,16 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const starsRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
+  const { scrollY } = useScroll();
 
-  // Parallax layers — each moves at a different speed
-  const bgY        = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
-  const nebulaY    = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const starsY     = useTransform(scrollYProgress, [0, 1], ['0%', '45%']);
-  const contentY   = useTransform(scrollYProgress, [0, 1], ['0%', '65%']);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  // Parallax layers — pixel-based on page scrollY (more reliable)
+  const bgY         = useTransform(scrollY, [0, 700], [0, 80]);
+  const nebulaY     = useTransform(scrollY, [0, 700], [0, 130]);
+  const starsY      = useTransform(scrollY, [0, 700], [0, 180]);
+  const contentY    = useTransform(scrollY, [0, 700], [0, 220]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   useEffect(() => {
     if (!starsRef.current) return;
@@ -83,7 +79,7 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
   };
 
   return (
-    <div ref={containerRef} className={styles.heroContainer}>
+    <div className={styles.heroContainer}>
 
       {/* Background image — slowest layer */}
       <motion.div
@@ -99,6 +95,9 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
 
       {/* Darkening overlay */}
       <div className="absolute inset-0 bg-black/45 z-[2]" />
+
+      {/* Bottom fade — blends into About (#0a0a0a) */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-[#0a0a0a] z-[4] pointer-events-none" />
 
       {/* Content — fastest layer */}
       <motion.div

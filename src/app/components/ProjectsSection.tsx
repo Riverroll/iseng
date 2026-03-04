@@ -233,7 +233,7 @@ const filterTags: Tag[] = ["All", "Tourism", "Government", "ERP", "WordPress", "
 
 function ProjectCard({ project, large = false }: { project: Project; large?: boolean }) {
   return (
-    <div className={`bg-white/[0.03] border border-white/10 rounded-lg flex flex-col gap-3 hover:border-white/25 hover:bg-white/[0.05] transition-all duration-300 ${large ? "p-7" : "p-5"}`}>
+    <div className={`bg-white/[0.03] border border-white/10 rounded-lg flex flex-col gap-3 hover:border-cyan-500/30 hover:bg-white/[0.05] hover:shadow-[0_0_30px_rgba(6,182,212,0.07)] transition-all duration-300 ${large ? "p-7" : "p-5"}`}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           {large && <span className="text-[10px] px-2 py-0.5 bg-white text-black rounded-full font-semibold tracking-widest uppercase">Featured</span>}
@@ -257,8 +257,12 @@ function ProjectCard({ project, large = false }: { project: Project; large?: boo
       </div>
       <p className={`text-white/50 leading-relaxed flex-1 ${large ? "text-sm" : "text-xs"}`}>{project.description}</p>
       <div className="flex flex-wrap gap-1.5 mt-auto">
-        {project.tags?.map((tag) => (
-          <span key={tag} className="text-[10px] px-2 py-0.5 bg-white/5 text-white/30 rounded-full border border-white/10">
+        {project.tags?.map((tag, i) => (
+          <span key={tag} className={`text-[10px] px-2 py-0.5 rounded-full border ${
+            i % 3 === 0 ? "bg-cyan-500/10 border-cyan-500/20 text-cyan-400/70" :
+            i % 3 === 1 ? "bg-violet-500/10 border-violet-500/20 text-violet-400/70" :
+            "bg-blue-500/10 border-blue-500/20 text-blue-400/70"
+          }`}>
             {tag}
           </span>
         ))}
@@ -282,13 +286,18 @@ export default function ProjectsSection() {
     : featuredProjects.filter((p) => p.tags?.includes(activeTag));
 
   return (
-    <section id="projects" className="py-20 bg-[#0a0a0a]">
-      <div className="container mx-auto px-6">
+    <section id="projects" className="py-20 bg-[#0a0a0a] relative overflow-hidden">
+      {/* Animated orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-0 w-[450px] h-[450px] rounded-full bg-blue-600/8 blur-[130px] animate-[drift2_20s_ease-in-out_infinite_alternate]" />
+        <div className="absolute bottom-0 left-10 w-[350px] h-[350px] rounded-full bg-violet-600/8 blur-[100px] animate-[drift1_16s_ease-in-out_infinite_alternate]" />
+      </div>
+      <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <p className="text-white/30 text-xs tracking-[0.3em] uppercase mb-2">Work</p>
-            <h2 className="text-3xl md:text-4xl font-bold">Projects</h2>
+            <p className="text-cyan-400/60 text-xs tracking-[0.3em] uppercase mb-2">Work</p>
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-white to-cyan-300 bg-clip-text text-transparent">Projects</h2>
           </div>
 
           <div className="flex flex-wrap gap-2">
