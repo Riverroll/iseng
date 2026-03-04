@@ -27,38 +27,28 @@ async function getAccessToken() {
 
 export async function GET() {
   if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
-    return NextResponse.json({ isPlaying: false, _d: "no_env" });
+    return NextResponse.json({ isPlaying: false });
   }
 
   try {
-    const tokenData = await getAccessToken();
-    const { access_token } = tokenData;
+    const { access_token } = await getAccessToken();
 
     if (!access_token) {
-      return NextResponse.json({
-        isPlaying: false,
-        _d: "no_token",
-        _e: tokenData.error,
-        _tokenLen: REFRESH_TOKEN.length,
-        _tokenStart: REFRESH_TOKEN.slice(0, 8),
-      });
+      return NextResponse.json({ isPlaying: false });
     }
 
     const res = await fetch(NOW_PLAYING_ENDPOINT, {
       headers: { Authorization: `Bearer ${access_token}` },
     });
 
-    if (res.status === 204) {
-      return NextResponse.json({ isPlaying: false, _d: "204_nothing_playing" });
-    }
-    if (res.status > 400) {
-      return NextResponse.json({ isPlaying: false, _d: `status_${res.status}` });
+    if (res.status === 204 || res.status > 400) {
+      return NextResponse.json({ isPlaying: false });
     }
 
     const data = await res.json();
 
     if (!data || !data.item) {
-      return NextResponse.json({ isPlaying: false, _d: "no_item" });
+      return NextResponse.json({ isPlaying: false });
     }
 
     return NextResponse.json({
@@ -69,7 +59,7 @@ export async function GET() {
       albumArt: data.item.album.images[0]?.url,
       songUrl: data.item.external_urls.spotify,
     });
-  } catch (e) {
-    return NextResponse.json({ isPlaying: false, _d: "exception", _e: String(e) });
+  } catch {
+    return NextResponse.json({ isPlaying: false });
   }
 }
