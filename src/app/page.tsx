@@ -6,6 +6,7 @@ import AboutSection from '@/app/components/AboutSection';
 import CertificateSection from '@/app/components/CertificateSection';
 import ProjectsSection from '@/app/components/ProjectsSection';
 import ContactSection from '@/app/components/ContactSection';
+import ResumeSection from '@/app/components/ResumeSection';
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <main>
         <HeroSection backgroundUrl="/images/hero-bg.jpg" />
         <AboutSection />
+        <ResumeSection />
         <ProjectsSection />
         <CertificateSection />
         <ContactSection />

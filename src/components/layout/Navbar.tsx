@@ -43,6 +43,9 @@ export default function Navbar() {
           <Link href="#about" className="hover:opacity-70 transition-opacity">
             About
           </Link>
+          <Link href="#resume" className="hover:opacity-70 transition-opacity">
+            Resume
+          </Link>
           <Link href="#projects" className="hover:opacity-70 transition-opacity">
             Projects
           </Link>
@@ -75,6 +78,13 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
             >
               About
+            </Link>
+            <Link
+              href="#resume"
+              className="hover:opacity-70 transition-opacity py-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Resume
             </Link>
             <Link
               href="#certificates"
