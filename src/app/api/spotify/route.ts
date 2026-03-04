@@ -35,7 +35,13 @@ export async function GET() {
     const { access_token } = tokenData;
 
     if (!access_token) {
-      return NextResponse.json({ isPlaying: false, _d: "no_token", _e: tokenData.error });
+      return NextResponse.json({
+        isPlaying: false,
+        _d: "no_token",
+        _e: tokenData.error,
+        _tokenLen: REFRESH_TOKEN.length,
+        _tokenStart: REFRESH_TOKEN.slice(0, 8),
+      });
     }
 
     const res = await fetch(NOW_PLAYING_ENDPOINT, {
