@@ -292,6 +292,12 @@ export default function ProjectsSection() {
         <div className="absolute top-20 right-0 w-[450px] h-[450px] rounded-full bg-blue-600/8 blur-[130px] animate-[drift2_20s_ease-in-out_infinite_alternate]" />
         <div className="absolute bottom-0 left-10 w-[350px] h-[350px] rounded-full bg-violet-600/8 blur-[100px] animate-[drift1_16s_ease-in-out_infinite_alternate]" />
       </div>
+
+      {/* Top fade — blends from Resume */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
+      {/* Bottom fade — blends into Certificates */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-[#0a0a0a] z-10 pointer-events-none" />
+
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">

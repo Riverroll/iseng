@@ -97,7 +97,7 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
       <div className="absolute inset-0 bg-black/45 z-[2]" />
 
       {/* Bottom fade — blends into About (#0a0a0a) */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-[#0a0a0a] z-[4] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-b from-transparent to-[#0a0a0a] z-[4] pointer-events-none" />
 
       {/* Content — fastest layer */}
       <motion.div

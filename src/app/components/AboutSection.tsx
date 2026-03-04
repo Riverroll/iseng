@@ -28,6 +28,11 @@ export default function AboutSection() {
         }}
       />
 
+      {/* Top fade — blends from Hero */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
+      {/* Bottom fade — blends into Resume */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-[#0a0a0a] z-10 pointer-events-none" />
+
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
