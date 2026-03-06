@@ -187,17 +187,6 @@ export default function ResumeSection() {
 
           {/* Right column: Education + Skills */}
           <div className="space-y-10">
-            {/* Spline 3D — sticky */}
-            <div className="sticky top-24 z-10">
-              <div className="rounded-xl overflow-hidden border border-white/10 h-[300px] bg-black/20">
-                <iframe
-                  src="https://my.spline.design/webdiagram-p49wll2o45Vhx7xRvYAasx61/"
-                  frameBorder="0"
-                  width="100%"
-                  height="100%"
-                />
-              </div>
-            </div>
             {/* Education */}
             <div>
               <p className="text-white/30 text-xs tracking-[0.25em] uppercase mb-6">Education</p>
