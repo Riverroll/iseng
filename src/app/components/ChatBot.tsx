@@ -182,6 +182,15 @@ export default function ChatBot() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const disableZoom = () => {
+    const vp = document.querySelector('meta[name="viewport"]');
+    if (vp) vp.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0');
+  };
+  const restoreZoom = () => {
+    const vp = document.querySelector('meta[name="viewport"]');
+    if (vp) vp.setAttribute('content', 'width=device-width, initial-scale=1');
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => setShowBubble(true), 2000);
     return () => clearTimeout(timer);
@@ -333,11 +342,11 @@ export default function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-20 right-4 md:right-6 z-50 w-[calc(100vw-2rem)] max-w-sm"
+            className="fixed bottom-24 right-4 md:right-6 z-50 w-[calc(100vw-2rem)] max-w-sm"
           >
             <div
               className="flex flex-col rounded-2xl border border-white/10 bg-[#0f0f0f] shadow-2xl overflow-hidden"
-              style={{ height: "min(520px, calc(100vh - 120px))" }}
+              style={{ height: "min(520px, calc(100vh - 160px))" }}
             >
               {/* Header */}
               <div className="flex items-center gap-3 px-4 py-3 border-b border-white/8 bg-[#141414]">
@@ -477,6 +486,9 @@ export default function ChatBot() {
                     placeholder="Ask about Val…"
                     disabled={loading}
                     className="flex-1 bg-transparent text-sm text-white placeholder-white/25 outline-none min-w-0"
+                    style={{ fontSize: '16px' }}
+                    onFocus={disableZoom}
+                    onBlur={restoreZoom}
                   />
                   <motion.button
                     type="submit"
