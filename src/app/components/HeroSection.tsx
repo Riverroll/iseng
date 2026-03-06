@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import SpaceAnimation from './SpaceAnimation';
+import SpaceCanvas from './SpaceCanvas';
 import styles from './SpaceHero.module.css';
 
 interface HeroSectionProps {
@@ -93,6 +94,9 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
       {/* Stars — slightly faster */}
       <motion.div ref={starsRef} className={styles.starsBackground} style={{ y: starsY }} />
 
+      {/* 3D space canvas — asteroids, meteoroids, Virgo, rockets */}
+      <SpaceCanvas />
+
       {/* Darkening overlay */}
       <div className="absolute inset-0 bg-black/45 z-[2]" />
 
@@ -122,6 +126,7 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
               <motion.h1
                 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4"
                 variants={itemVariants}
+                data-hero-val
               >
                 Val
               </motion.h1>

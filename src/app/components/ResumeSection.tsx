@@ -187,6 +187,20 @@ export default function ResumeSection() {
 
           {/* Right column: Education + Skills */}
           <div className="space-y-10">
+            {/* Stats card */}
+            <div className="sticky top-24 rounded-xl border border-white/10 bg-white/[0.02] p-6 grid grid-cols-2 gap-4">
+              {[
+                { label: "Years Experience", value: "3+" },
+                { label: "Projects Shipped", value: "20+" },
+                { label: "Industries", value: "5+" },
+                { label: "Tech Stack", value: "12+" },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex flex-col gap-1">
+                  <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">{value}</span>
+                  <span className="text-white/35 text-xs">{label}</span>
+                </div>
+              ))}
+            </div>
             {/* Education */}
             <div>
               <p className="text-white/30 text-xs tracking-[0.25em] uppercase mb-6">Education</p>
