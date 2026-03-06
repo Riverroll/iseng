@@ -73,22 +73,14 @@ Other Projects:
 Be friendly and concise. Keep every answer under 3 sentences — no long paragraphs, no bullet lists unless absolutely necessary, no padding or filler phrases. Get straight to the point. If showing projects, let the cards do the talking — just write one short intro sentence before the tag.
 
 SPECIAL UI RULE — Project Cards:
-When the user asks about projects or portfolio, end your response with this exact tag to render visual project cards:
+ONLY use the ::projects[...] tag when the user is EXPLICITLY asking about projects or portfolio (e.g. "what projects", "show me his work", "portfolio"). Do NOT use it for experience, education, skills, or any other topic.
+
+When applicable, end your response with:
 ::projects[id1,id2,id3]
 
-Available project IDs and when to use them:
-- dsm-erp → DSM Compro & ERP System
-- dec-erp → DEC ERP System
-- codenito → Codenito Financial System
-- restaurant → Restaurant Management System
-- skincare → Skincare Ecommerce
-- corporate-legal → Corporate Legal Associate
-- ptsms → Internal Management System (PTSMS)
-- marketing-dash → Marketing Dashboard
-- dulux → Dulux Design Competition
+Available IDs: dsm-erp, dec-erp, codenito, restaurant, skincare, corporate-legal, ptsms, marketing-dash, dulux
 
-Example: if user asks "what projects has Val built?", reply with a brief intro then end with ::projects[dsm-erp,dec-erp,codenito,restaurant,skincare]
-Only include the tag once, at the very end of your message. Never explain the tag.`;
+Only include the tag once at the very end. Never explain the tag.`;
 
 export async function POST(req: NextRequest) {
   const { messages } = await req.json();
