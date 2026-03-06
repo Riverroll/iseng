@@ -1,5 +1,6 @@
 // src/app/page.tsx
 import WelcomeAnimation from '@/app/components/WelcomeAnimation';
+import ScrollToTop from '@/app/components/ScrollToTop';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HeroSection from '@/app/components/HeroSection';
@@ -13,6 +14,7 @@ import ChatBot from '@/app/components/ChatBot';
 export default function Home() {
   return (
     <>
+      <ScrollToTop />
       <WelcomeAnimation />
       <Navbar />
 
