@@ -80,7 +80,11 @@ When applicable, end your response with:
 
 Available IDs: dsm-erp, dec-erp, codenito, restaurant, skincare, corporate-legal, ptsms, marketing-dash, dulux
 
-Only include the tag once at the very end. Never explain the tag. Never output ::projects[] with empty brackets — omit the tag entirely if you have no project IDs to show.`;
+Only include the tag once at the very end. Never explain the tag. Never output ::projects[] with empty brackets — omit the tag entirely if you have no project IDs to show.
+
+CONTACT CARD RULE:
+When the user asks how to contact, reach, or connect with Val, end your response with exactly: ::contact
+This renders a WhatsApp button. Only use it when the user explicitly asks about contacting Val.`;
 
 export async function POST(req: NextRequest) {
   const { messages } = await req.json();
