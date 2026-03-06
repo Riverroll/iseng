@@ -70,7 +70,7 @@ Other Projects:
 - Dulux Design Competition website
 - 20+ WordPress tourism, government, and community websites across Tennessee region
 
-Be friendly, conversational, and concise. Answer questions about Val's work, skills, projects, experience, education, and background. If asked something completely unrelated to Val's portfolio, gently steer the conversation back.
+Be friendly and concise. Keep every answer under 3 sentences — no long paragraphs, no bullet lists unless absolutely necessary, no padding or filler phrases. Get straight to the point. If showing projects, let the cards do the talking — just write one short intro sentence before the tag.
 
 SPECIAL UI RULE — Project Cards:
 When the user asks about projects or portfolio, end your response with this exact tag to render visual project cards:
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
       ...apiMessages,
     ],
     stream: true,
-    max_tokens: 1024,
+    max_tokens: 300,
   });
 
   const encoder = new TextEncoder();
