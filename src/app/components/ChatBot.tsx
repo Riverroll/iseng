@@ -206,7 +206,7 @@ export default function ChatBot() {
         },
       ]);
     }
-    if (open) {
+    if (open && !('ontouchstart' in window)) {
       setTimeout(() => inputRef.current?.focus(), 300);
     }
   }, [open]);
@@ -318,9 +318,9 @@ export default function ChatBot() {
     }
   };
 
-  // Keep input focused whenever loading finishes
+  // Keep input focused whenever loading finishes (desktop only)
   useEffect(() => {
-    if (!loading && open) {
+    if (!loading && open && !('ontouchstart' in window)) {
       inputRef.current?.focus();
     }
   }, [loading, open]);
