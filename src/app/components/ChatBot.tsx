@@ -312,6 +312,7 @@ export default function ChatBot() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sendMessage(input);
+    setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   const showSuggestions = messages.length <= 1;
