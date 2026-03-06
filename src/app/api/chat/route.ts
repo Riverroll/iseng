@@ -70,7 +70,25 @@ Other Projects:
 - Dulux Design Competition website
 - 20+ WordPress tourism, government, and community websites across Tennessee region
 
-Be friendly, conversational, and concise. Answer questions about Val's work, skills, projects, experience, education, and background. If asked something completely unrelated to Val's portfolio, gently steer the conversation back.`;
+Be friendly, conversational, and concise. Answer questions about Val's work, skills, projects, experience, education, and background. If asked something completely unrelated to Val's portfolio, gently steer the conversation back.
+
+SPECIAL UI RULE — Project Cards:
+When the user asks about projects or portfolio, end your response with this exact tag to render visual project cards:
+::projects[id1,id2,id3]
+
+Available project IDs and when to use them:
+- dsm-erp → DSM Compro & ERP System
+- dec-erp → DEC ERP System
+- codenito → Codenito Financial System
+- restaurant → Restaurant Management System
+- skincare → Skincare Ecommerce
+- corporate-legal → Corporate Legal Associate
+- ptsms → Internal Management System (PTSMS)
+- marketing-dash → Marketing Dashboard
+- dulux → Dulux Design Competition
+
+Example: if user asks "what projects has Val built?", reply with a brief intro then end with ::projects[dsm-erp,dec-erp,codenito,restaurant,skincare]
+Only include the tag once, at the very end of your message. Never explain the tag.`;
 
 export async function POST(req: NextRequest) {
   const { messages } = await req.json();

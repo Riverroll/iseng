@@ -10,6 +10,99 @@ interface Message {
   content: string;
 }
 
+const PROJECTS: Record<string, { title: string; description: string; tags: string[]; url?: string }> = {
+  "dsm-erp": {
+    title: "DSM Compro & ERP System",
+    description: "Company profile + full ERP covering procurement, finance, HR, and operations.",
+    tags: ["ERP", "Enterprise", "Web"],
+    url: "https://stagingweborder.dharmesta.com/",
+  },
+  "dec-erp": {
+    title: "DEC ERP System",
+    description: "Custom ERP for DEC with real-time reporting.",
+    tags: ["ERP", "Enterprise"],
+    url: "https://dec.codenito.id/dashboard",
+  },
+  "codenito": {
+    title: "Codenito Financial System",
+    description: "Budgeting, invoicing, and expense tracking platform.",
+    tags: ["Fintech", "Dashboard"],
+  },
+  "restaurant": {
+    title: "Restaurant Management System",
+    description: "Full-stack app for managing orders, inventory, and staff.",
+    tags: ["Full Stack", "Web App"],
+  },
+  "skincare": {
+    title: "Skincare Ecommerce",
+    description: "End-to-end ecommerce with payment gateway integration.",
+    tags: ["Ecommerce", "Full Stack"],
+  },
+  "corporate-legal": {
+    title: "Corporate Legal Associate",
+    description: "Document management and case tracking dashboard.",
+    tags: ["Web App", "Dashboard"],
+  },
+  "ptsms": {
+    title: "Internal Management System (PTSMS)",
+    description: "Enterprise internal tool for PT SMS — employee management and reporting.",
+    tags: ["ERP", "Enterprise"],
+  },
+  "marketing-dash": {
+    title: "Marketing Dashboard",
+    description: "Real-time analytics dashboard for campaign performance.",
+    tags: ["Dashboard", "Analytics"],
+  },
+  "dulux": {
+    title: "Dulux Design Competition",
+    description: "Official website for the Dulux Design Competition.",
+    tags: ["Web", "Design"],
+  },
+};
+
+function ProjectCards({ ids }: { ids: string[] }) {
+  const valid = ids.filter((id) => PROJECTS[id]);
+  if (!valid.length) return null;
+  return (
+    <div className="flex flex-col gap-2 mt-2">
+      {valid.map((id) => {
+        const p = PROJECTS[id];
+        return (
+          <div key={id} className="bg-white/5 border border-white/10 rounded-xl p-3 hover:border-violet-500/30 transition-colors">
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-white text-xs font-semibold leading-snug">{p.title}</p>
+              {p.url && (
+                <a href={p.url} target="_blank" rel="noopener noreferrer"
+                  className="text-white/30 hover:text-white transition-colors flex-shrink-0">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+            <p className="text-white/45 text-[11px] mt-1 leading-snug">{p.description}</p>
+            <div className="flex flex-wrap gap-1 mt-2">
+              {p.tags.map((tag) => (
+                <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400/70">{tag}</span>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// Parse ::projects[id1,id2] out of message content
+function parseContent(raw: string): { text: string; projectIds: string[] } {
+  const match = raw.match(/::projects\[([^\]]+)\]/);
+  if (!match) return { text: raw, projectIds: [] };
+  const projectIds = match[1].split(",").map((s) => s.trim());
+  const text = raw.replace(match[0], "").trim();
+  return { text, projectIds };
+}
+
 const SUGGESTIONS = [
   "What projects has Val built?",
   "What's Val's tech stack?",
@@ -50,6 +143,7 @@ export default function ChatBot() {
   const [open, setOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [displayedCount, setDisplayedCount] = useState(0);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -74,6 +168,29 @@ export default function ChatBot() {
       setTimeout(() => inputRef.current?.focus(), 300);
     }
   }, [open]);
+
+  // Reset typewriter when a new assistant message starts
+  useEffect(() => {
+    if (loading) setDisplayedCount(0);
+  }, [loading]);
+
+  // Typewriter: advance displayed chars toward actual content
+  useEffect(() => {
+    if (!loading) {
+      const last = messages[messages.length - 1];
+      if (last?.role === "assistant") setDisplayedCount(last.content.length);
+      return;
+    }
+    const interval = setInterval(() => {
+      const last = messages[messages.length - 1];
+      if (!last || last.role !== "assistant") return;
+      setDisplayedCount((prev) => {
+        if (prev >= last.content.length) return prev;
+        return Math.min(prev + 4, last.content.length); // 4 chars per 20ms ≈ natural typing speed
+      });
+    }, 20);
+    return () => clearInterval(interval);
+  }, [loading, messages]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -222,18 +339,36 @@ export default function ChatBot() {
                             : "bg-white/6 border border-white/8 text-white/85 rounded-tl-sm"
                         }`}
                       >
-                        {msg.content ? (
-                          <ReactMarkdown
+                        {(() => {
+                        const isStreaming = loading && i === messages.length - 1;
+                        const raw = isStreaming ? msg.content.slice(0, displayedCount) : msg.content;
+                        const { text: content, projectIds } = parseContent(raw);
+                        return content || projectIds.length ? (
+                          <>
+                          {content ? <ReactMarkdown
                             components={{
-                              p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                              p: ({ children }) => (
+                                <p className="mb-1 last:mb-0">
+                                  {children}
+                                  {isStreaming && (
+                                    <motion.span
+                                      className="inline-block w-[2px] h-[1em] bg-violet-400 ml-0.5 align-middle rounded-full"
+                                      animate={{ opacity: [1, 0, 1] }}
+                                      transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
+                                    />
+                                  )}
+                                </p>
+                              ),
                               strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
                               ol: ({ children }) => <ol className="list-decimal list-inside space-y-1 mt-1">{children}</ol>,
                               ul: ({ children }) => <ul className="list-disc list-inside space-y-1 mt-1">{children}</ul>,
                               li: ({ children }) => <li className="leading-snug">{children}</li>,
                             }}
                           >
-                            {msg.content}
-                          </ReactMarkdown>
+                            {content}
+                          </ReactMarkdown> : null}
+                          {!isStreaming && projectIds.length > 0 && <ProjectCards ids={projectIds} />}
+                          </>
                         ) : (
                           /* Typing indicator */
                           <span className="flex gap-1 items-center py-0.5">
@@ -251,7 +386,8 @@ export default function ChatBot() {
                               />
                             ))}
                           </span>
-                        )}
+                        );
+                      })()}
                       </div>
                     </motion.div>
                   ))}
