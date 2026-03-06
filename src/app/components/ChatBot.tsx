@@ -94,11 +94,14 @@ function ProjectCards({ ids }: { ids: string[] }) {
   );
 }
 
-// Parse ::projects[id1,id2] out of message content
+// Parse ::projects[id1,id2] out of message content (handles empty brackets too)
 function parseContent(raw: string): { text: string; projectIds: string[] } {
-  const match = raw.match(/::projects\[([^\]]+)\]/);
+  const match = raw.match(/::projects\[([^\]]*)\]/);
   if (!match) return { text: raw, projectIds: [] };
-  const projectIds = match[1].split(",").map((s) => s.trim());
+  const projectIds = match[1]
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
   const text = raw.replace(match[0], "").trim();
   return { text, projectIds };
 }

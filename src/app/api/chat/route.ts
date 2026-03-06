@@ -80,7 +80,7 @@ When applicable, end your response with:
 
 Available IDs: dsm-erp, dec-erp, codenito, restaurant, skincare, corporate-legal, ptsms, marketing-dash, dulux
 
-Only include the tag once at the very end. Never explain the tag.`;
+Only include the tag once at the very end. Never explain the tag. Never output ::projects[] with empty brackets — omit the tag entirely if you have no project IDs to show.`;
 
 export async function POST(req: NextRequest) {
   const { messages } = await req.json();
