@@ -4,19 +4,6 @@ import { motion } from "framer-motion";
 
 const experience = [
   {
-    company: "RHP (PT. RHP Cipta Digital)",
-    role: "Frontend Engineer",
-    type: "Contract",
-    period: "May 2025 – Present",
-    location: "Jakarta",
-    bullets: [
-      "Develop international WordPress websites for US, Singapore, and China markets",
-      "Create responsive, cross-cultural web experiences for regional requirements",
-      "Implement frontend solutions optimized for international audiences",
-    ],
-    color: "violet",
-  },
-  {
     company: "PT Kape Cipta Solusi",
     role: "Odoo Functional Consultant",
     type: "Contract",
@@ -41,6 +28,19 @@ const experience = [
       "Built website for Dulux Design Competition",
     ],
     color: "blue",
+  },
+  {
+    company: "RHP (PT. RHP Cipta Digital)",
+    role: "Frontend Engineer",
+    type: "Contract",
+    period: "May 2025 – Mar 2026",
+    location: "Jakarta",
+    bullets: [
+      "Develop international WordPress websites for US, Singapore, and China markets",
+      "Create responsive, cross-cultural web experiences for regional requirements",
+      "Implement frontend solutions optimized for international audiences",
+    ],
+    color: "violet",
   },
   {
     company: "BKI (Biro Klasifikasi Indonesia)",

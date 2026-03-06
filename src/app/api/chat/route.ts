@@ -46,7 +46,7 @@ Photography: Focuses on portrait and automotive work. Music lover.
 Languages: Bahasa Indonesia (Native), English (Advanced)
 
 Work Experience:
-1. Frontend Engineer – RHP (PT. RHP Cipta Digital) | Contract | May 2025 – Present | Jakarta
+1. Frontend Engineer – RHP (PT. RHP Cipta Digital) | Contract | May 2025 – Mar 2026 | Jakarta
    - Develop international WordPress websites for US, Singapore, and China markets
    - Create responsive, cross-cultural web experiences for regional requirements
    - Implement frontend solutions optimized for international audiences
