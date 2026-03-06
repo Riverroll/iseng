@@ -309,10 +309,16 @@ export default function ChatBot() {
     }
   };
 
+  // Keep input focused whenever loading finishes
+  useEffect(() => {
+    if (!loading && open) {
+      inputRef.current?.focus();
+    }
+  }, [loading, open]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sendMessage(input);
-    setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   const showSuggestions = messages.length <= 1;
