@@ -1,0 +1,386 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import Image from "next/image";
+
+interface Message {
+  role: "user" | "assistant";
+  content: string;
+}
+
+const SUGGESTIONS = [
+  "What projects has Val built?",
+  "What's Val's tech stack?",
+  "Tell me about Val's photography",
+];
+
+const messageVariants = {
+  hidden: (role: string) => ({
+    opacity: 0,
+    x: role === "user" ? 20 : -20,
+    y: 6,
+  }),
+  visible: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+function Avatar({ size = 32 }: { size?: number }) {
+  return (
+    <div
+      className="relative flex-shrink-0 rounded-full overflow-hidden ring-1 ring-white/10"
+      style={{ width: size, height: size }}
+    >
+      <Image
+        src="/images/ai-avatar.jpg"
+        alt="AI"
+        fill
+        className="object-cover object-top"
+      />
+    </div>
+  );
+}
+
+export default function ChatBot() {
+  const [open, setOpen] = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowBubble(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (open && messages.length === 0) {
+      setMessages([
+        {
+          role: "assistant",
+          content:
+            "Hey! I'm Val's AI assistant. Ask me anything about his work, skills, or projects.",
+        },
+      ]);
+    }
+    if (open) {
+      setTimeout(() => inputRef.current?.focus(), 300);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
+  const sendMessage = async (text: string) => {
+    const userText = text.trim();
+    if (!userText || loading) return;
+
+    const newMessages: Message[] = [
+      ...messages,
+      { role: "user", content: userText },
+    ];
+    setMessages(newMessages);
+    setInput("");
+    setLoading(true);
+
+    const assistantIndex = newMessages.length;
+    setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: newMessages.map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
+        }),
+      });
+
+      if (!res.ok) throw new Error("Request failed");
+
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      if (!reader) throw new Error("No reader");
+
+      let buffer = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6);
+          if (data === "[DONE]") break;
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.text) {
+              setMessages((prev) => {
+                const updated = [...prev];
+                updated[assistantIndex] = {
+                  role: "assistant",
+                  content: updated[assistantIndex].content + parsed.text,
+                };
+                return updated;
+              });
+            }
+          } catch {
+            // skip malformed chunks
+          }
+        }
+      }
+    } catch {
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[assistantIndex] = {
+          role: "assistant",
+          content: "Sorry, something went wrong. Please try again.",
+        };
+        return updated;
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessage(input);
+  };
+
+  const showSuggestions = messages.length <= 1;
+
+  return (
+    <>
+      {/* Chat panel */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-20 right-4 md:right-6 z-50 w-[calc(100vw-2rem)] max-w-sm"
+          >
+            <div
+              className="flex flex-col rounded-2xl border border-white/10 bg-[#0f0f0f] shadow-2xl overflow-hidden"
+              style={{ height: "min(520px, calc(100vh - 120px))" }}
+            >
+              {/* Header */}
+              <div className="flex items-center gap-3 px-4 py-3 border-b border-white/8 bg-[#141414]">
+                <div className="relative">
+                  <Avatar size={34} />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#141414]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white leading-none">Val&apos;s AI</p>
+                  <p className="text-[10px] text-white/40 mt-0.5">Portfolio assistant · always online</p>
+                </div>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-white/30 hover:text-white transition-colors p-1"
+                  aria-label="Close chat"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+                <AnimatePresence initial={false}>
+                  {messages.map((msg, i) => (
+                    <motion.div
+                      key={i}
+                      custom={msg.role}
+                      variants={messageVariants}
+                      initial="hidden"
+                      animate="visible"
+                      className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                    >
+                      {msg.role === "assistant" && (
+                        <Avatar size={26} />
+                      )}
+                      <div
+                        className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                          msg.role === "user"
+                            ? "bg-violet-600/80 text-white rounded-tr-sm"
+                            : "bg-white/6 border border-white/8 text-white/85 rounded-tl-sm"
+                        }`}
+                      >
+                        {msg.content ? (
+                          <ReactMarkdown
+                            components={{
+                              p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                              strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
+                              ol: ({ children }) => <ol className="list-decimal list-inside space-y-1 mt-1">{children}</ol>,
+                              ul: ({ children }) => <ul className="list-disc list-inside space-y-1 mt-1">{children}</ul>,
+                              li: ({ children }) => <li className="leading-snug">{children}</li>,
+                            }}
+                          >
+                            {msg.content}
+                          </ReactMarkdown>
+                        ) : (
+                          /* Typing indicator */
+                          <span className="flex gap-1 items-center py-0.5">
+                            {[0, 150, 300].map((delay) => (
+                              <motion.span
+                                key={delay}
+                                className="w-1.5 h-1.5 rounded-full bg-white/40 block"
+                                animate={{ y: [0, -4, 0] }}
+                                transition={{
+                                  duration: 0.6,
+                                  repeat: Infinity,
+                                  delay: delay / 1000,
+                                  ease: "easeInOut",
+                                }}
+                              />
+                            ))}
+                          </span>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+
+                {/* Suggestions */}
+                <AnimatePresence>
+                  {showSuggestions && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ delay: 0.3, duration: 0.3 }}
+                      className="flex flex-col gap-2 mt-2"
+                    >
+                      {SUGGESTIONS.map((s, i) => (
+                        <motion.button
+                          key={s}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.35 + i * 0.08 }}
+                          onClick={() => sendMessage(s)}
+                          className="text-left text-xs text-violet-300/70 border border-violet-500/20 rounded-xl px-3 py-2 hover:bg-violet-500/10 hover:border-violet-500/40 hover:text-violet-300 transition-all duration-200"
+                        >
+                          {s}
+                        </motion.button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <div ref={bottomRef} />
+              </div>
+
+              {/* Input */}
+              <form onSubmit={handleSubmit} className="px-3 pb-3 pt-2 border-t border-white/8">
+                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-3 py-2 focus-within:border-violet-500/40 transition-colors">
+                  <input
+                    ref={inputRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Ask about Val…"
+                    disabled={loading}
+                    className="flex-1 bg-transparent text-sm text-white placeholder-white/25 outline-none min-w-0"
+                  />
+                  <motion.button
+                    type="submit"
+                    disabled={!input.trim() || loading}
+                    whileTap={{ scale: 0.9 }}
+                    className="flex-shrink-0 w-7 h-7 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-white/10 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
+                    aria-label="Send"
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="22" y1="2" x2="11" y2="13" />
+                      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                  </motion.button>
+                </div>
+              </form>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Bubble prompt */}
+      <AnimatePresence>
+        {showBubble && !open && (
+          <motion.div
+            initial={{ opacity: 0, x: 10, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 10, scale: 0.9 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-4 right-24 md:right-28 z-50 cursor-pointer flex items-center"
+            onClick={() => { setOpen(true); setShowBubble(false); }}
+          >
+            <div className="relative bg-[#1a1a1a] border border-white/10 rounded-2xl rounded-br-sm px-5 py-3.5 shadow-xl">
+              <p className="text-base font-medium text-white whitespace-nowrap">How can I help? 👋</p>
+              <p className="text-xs text-white/40 mt-0.5">Ask me anything about Val</p>
+              {/* Arrow pointing right */}
+              <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 w-3 h-3 bg-[#1a1a1a] border-r border-t border-white/10 rotate-45" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Toggle button */}
+      <motion.button
+        onClick={() => { setOpen((v) => !v); setShowBubble(false); }}
+        className="fixed bottom-4 right-4 md:right-6 z-50 rounded-full shadow-lg overflow-hidden"
+        style={{ width: 68, height: 68 }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
+        aria-label="Open AI chat"
+      >
+        <AnimatePresence mode="wait">
+          {open ? (
+            <motion.div
+              key="close"
+              initial={{ opacity: 0, rotate: -90 }}
+              animate={{ opacity: 1, rotate: 0 }}
+              exit={{ opacity: 0, rotate: 90 }}
+              transition={{ duration: 0.15 }}
+              className="w-full h-full flex items-center justify-center"
+              style={{ background: "linear-gradient(135deg, #7c3aed, #06b6d4)" }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="avatar"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.15 }}
+              className="w-full h-full relative"
+            >
+              <Image
+                src="/images/ai-avatar.jpg"
+                alt="AI"
+                fill
+                className="object-cover object-top"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.button>
+    </>
+  );
+}

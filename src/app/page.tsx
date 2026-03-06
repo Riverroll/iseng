@@ -7,6 +7,7 @@ import CertificateSection from '@/app/components/CertificateSection';
 import ProjectsSection from '@/app/components/ProjectsSection';
 import ContactSection from '@/app/components/ContactSection';
 import ResumeSection from '@/app/components/ResumeSection';
+import ChatBot from '@/app/components/ChatBot';
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <ChatBot />
     </>
   );
 }
