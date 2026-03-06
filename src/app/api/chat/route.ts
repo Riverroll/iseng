@@ -1,6 +1,23 @@
 import Groq from "groq-sdk";
 import { NextRequest } from "next/server";
 
+// Simple in-memory rate limiter: 10 requests per minute per IP
+const rateLimit = new Map<string, { count: number; reset: number }>();
+const LIMIT = 10;
+const WINDOW_MS = 60_000;
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimit.get(ip);
+  if (!entry || now > entry.reset) {
+    rateLimit.set(ip, { count: 1, reset: now + WINDOW_MS });
+    return false;
+  }
+  if (entry.count >= LIMIT) return true;
+  entry.count++;
+  return false;
+}
+
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 const SYSTEM_PROMPT = `You are a strictly scoped AI assistant embedded in Val's portfolio website. Your sole purpose is to answer questions about Val — his work, projects, skills, experience, and background.
@@ -87,6 +104,14 @@ When the user asks how to contact, reach, or connect with Val, end your response
 This renders a WhatsApp button. Only use it when the user explicitly asks about contacting Val.`;
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  if (isRateLimited(ip)) {
+    return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment." }), {
+      status: 429,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const { messages } = await req.json();
 
   // Skip the initial assistant greeting from history

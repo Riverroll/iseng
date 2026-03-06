@@ -256,6 +256,7 @@ export default function ChatBot() {
         }),
       });
 
+      if (res.status === 429) throw new Error("rate_limited");
       if (!res.ok) throw new Error("Request failed");
 
       const reader = res.body?.getReader();
@@ -291,12 +292,15 @@ export default function ChatBot() {
           }
         }
       }
-    } catch {
+    } catch (err) {
+      const isRateLimited = err instanceof Error && err.message === "rate_limited";
       setMessages((prev) => {
         const updated = [...prev];
         updated[assistantIndex] = {
           role: "assistant",
-          content: "Sorry, something went wrong. Please try again.",
+          content: isRateLimited
+            ? "You're sending messages too fast. Please wait a moment and try again."
+            : "Sorry, something went wrong. Please try again.",
         };
         return updated;
       });
