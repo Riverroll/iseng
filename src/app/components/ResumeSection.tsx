@@ -4,10 +4,23 @@ import { motion } from "framer-motion";
 
 const experience = [
   {
+    company: "Mineral Alam Abadi Group",
+    role: "Mobile Development Intern",
+    type: "Internship",
+    period: "Apr 2026 – Present",
+    location: "Jakarta",
+    bullets: [
+      "Built E2E and WebSocket test suites for the auction feature (bidding, realtime updates, payment flow)",
+      "Verified production system reliability through live smoke testing",
+      "Assisted with Flutter mobile app feature development and bug fixes",
+    ],
+    color: "emerald",
+  },
+  {
     company: "PT Kape Cipta Solusi",
     role: "Odoo Functional Consultant",
     type: "Contract",
-    period: "May 2025 – Present",
+    period: "May 2025 – Apr 2026",
     location: "Jakarta",
     bullets: [
       "Software documentation and business process optimization",
@@ -74,17 +87,19 @@ const education = [
 ];
 
 const colorMap: Record<string, string> = {
-  violet: "border-violet-500/30 bg-violet-500/5 text-violet-400",
-  cyan:   "border-cyan-500/30 bg-cyan-500/5 text-cyan-400",
-  blue:   "border-blue-500/30 bg-blue-500/5 text-blue-400",
-  pink:   "border-pink-500/30 bg-pink-500/5 text-pink-400",
+  violet:  "border-violet-500/30 bg-violet-500/5 text-violet-400",
+  cyan:    "border-cyan-500/30 bg-cyan-500/5 text-cyan-400",
+  blue:    "border-blue-500/30 bg-blue-500/5 text-blue-400",
+  pink:    "border-pink-500/30 bg-pink-500/5 text-pink-400",
+  emerald: "border-emerald-500/30 bg-emerald-500/5 text-emerald-400",
 };
 
 const dotMap: Record<string, string> = {
-  violet: "bg-violet-500 shadow-[0_0_8px_2px_rgba(139,92,246,0.5)]",
-  cyan:   "bg-cyan-500 shadow-[0_0_8px_2px_rgba(6,182,212,0.5)]",
-  blue:   "bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.5)]",
-  pink:   "bg-pink-500 shadow-[0_0_8px_2px_rgba(236,72,153,0.5)]",
+  violet:  "bg-violet-500 shadow-[0_0_8px_2px_rgba(139,92,246,0.5)]",
+  cyan:    "bg-cyan-500 shadow-[0_0_8px_2px_rgba(6,182,212,0.5)]",
+  blue:    "bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.5)]",
+  pink:    "bg-pink-500 shadow-[0_0_8px_2px_rgba(236,72,153,0.5)]",
+  emerald: "bg-emerald-500 shadow-[0_0_8px_2px_rgba(16,185,129,0.5)]",
 };
 
 export default function ResumeSection() {

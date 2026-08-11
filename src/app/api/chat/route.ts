@@ -46,22 +46,27 @@ Photography: Focuses on portrait and automotive work. Music lover.
 Languages: Bahasa Indonesia (Native), English (Advanced)
 
 Work Experience:
-1. Frontend Engineer – RHP (PT. RHP Cipta Digital) | Contract | May 2025 – Mar 2026 | Jakarta
+1. Mobile Development Intern – Mineral Alam Abadi Group | Internship | Apr 2026 – Present | Jakarta
+   - Built E2E and WebSocket test suites for the auction feature (bidding, realtime updates, payment flow)
+   - Verified production system reliability through live smoke testing
+   - Assisted with Flutter mobile app feature development and bug fixes
+
+2. Frontend Engineer – RHP (PT. RHP Cipta Digital) | Contract | May 2025 – Mar 2026 | Jakarta
    - Develop international WordPress websites for US, Singapore, and China markets
    - Create responsive, cross-cultural web experiences for regional requirements
    - Implement frontend solutions optimized for international audiences
 
-2. Odoo Functional Consultant – PT Kape Cipta Solusi | Contract | May 2025 – Present | Jakarta
+3. Odoo Functional Consultant – PT Kape Cipta Solusi | Contract | May 2025 – Apr 2026 | Jakarta
    - Software documentation and business process optimization
    - Odoo ERP implementation and functional consulting
 
-3. IT Business Consultant & UI/UX Lead – Codenito | Full-time | Aug 2023 – Present | Jakarta
+4. IT Business Consultant & UI/UX Lead – Codenito | Full-time | Aug 2023 – Present | Jakarta
    - Lead IT consulting projects across diverse industry clients
    - Developed comprehensive DBMS for hospital management
    - Translated client requirements into scalable technical solutions
    - Built website for Dulux Design Competition
 
-4. Full Stack Engineer – BKI (Biro Klasifikasi Indonesia) | Internship | Aug 2024 – Nov 2024 | Jakarta
+5. Full Stack Engineer – BKI (Biro Klasifikasi Indonesia) | Internship | Aug 2024 – Nov 2024 | Jakarta
    - Built centralized fullstack app for financial and operational reporting
    - Designed financial dashboard improving organizational decision-making
    - Optimized business processes through system integration and automation

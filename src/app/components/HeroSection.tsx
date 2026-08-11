@@ -124,12 +124,19 @@ export default function HeroSection({ backgroundUrl }: HeroSectionProps) {
 
             <div className="w-full text-white text-center">
               <motion.h1
-                className="text-4xl md:text-5xl font-bold mb-2 md:mb-4"
+                className="text-4xl md:text-5xl font-bold mb-1 md:mb-2"
                 variants={itemVariants}
                 data-hero-val
               >
                 Val
               </motion.h1>
+
+              <motion.p
+                className="text-xs md:text-sm uppercase tracking-[0.2em] text-white/50 mb-3 md:mb-4"
+                variants={itemVariants}
+              >
+                Nauval Uzlah
+              </motion.p>
 
               <motion.p
                 className="text-lg md:text-xl mx-auto max-w-xl mb-6 md:mb-8 text-white/80"
