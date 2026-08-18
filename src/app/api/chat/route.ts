@@ -18,7 +18,13 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+let groq: Groq | null = null;
+function getGroqClient(): Groq {
+  if (!groq) {
+    groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  }
+  return groq;
+}
 
 const SYSTEM_PROMPT = `You are a strictly scoped AI assistant embedded in Val's portfolio website. Your sole purpose is to answer questions about Val — his work, projects, skills, experience, and background.
 
@@ -117,6 +123,13 @@ export async function POST(req: NextRequest) {
     });
   }
 
+  if (!process.env.GROQ_API_KEY) {
+    return new Response(JSON.stringify({ error: "Chat is not configured." }), {
+      status: 503,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const { messages } = await req.json();
 
   // Skip the initial assistant greeting from history
@@ -124,7 +137,7 @@ export async function POST(req: NextRequest) {
     (m: { role: string }, i: number) => !(i === 0 && m.role === "assistant")
   );
 
-  const stream = await groq.chat.completions.create({
+  const stream = await getGroqClient().chat.completions.create({
     model: "llama-3.3-70b-versatile",
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
