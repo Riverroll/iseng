@@ -57,7 +57,7 @@ export default function AboutSection() {
             <div className="relative aspect-[4/5] max-w-sm mx-auto overflow-hidden rounded-lg border border-white/10">
               <Image
                 src="/images/profilephoto.JPG"
-                alt="Val"
+                alt="Nauval Uzlah (Val) — Developer and Photographer"
                 fill
                 className="object-cover object-center"
               />

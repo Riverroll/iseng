@@ -231,7 +231,7 @@ export default function SpaceCertificateCarousel() {
       <div className="container mx-auto">
         {/* Certifications Title Section */}
         <div className="w-full text-white text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4">Certifications</h1>
+          <h2 className="text-4xl md:text-5xl font-bold mb-2 md:mb-4">Certifications</h2>
           <p className="text-lg md:text-xl mx-auto max-w-xl mb-6 md:mb-8 text-white/80">
             Professional achievements and educational milestones that highlight my expertise and continuous learning.
           </p>

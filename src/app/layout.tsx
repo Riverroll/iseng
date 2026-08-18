@@ -14,11 +14,25 @@ export const metadata: Metadata = {
   keywords: ['Nauval Uzlah', 'Uzlah', 'Nauval', 'Val', 'Riverroll', 'Developer', 'Photographer', 'Indonesia', 'Portfolio'],
   authors: [{ name: fullName, url: siteUrl }],
   creator: fullName,
+  publisher: fullName,
+  alternates: {
+    canonical: siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+    },
+  },
   icons: {
     icon: '/favicon.ico',
   },
   openGraph: {
     type: 'website',
+    locale: 'en_US',
     url: siteUrl,
     siteName: fullName,
     title: `${fullName} — Developer & Photographer`,
@@ -46,7 +60,13 @@ const personJsonLd = {
   name: fullName,
   alternateName: 'Val',
   url: siteUrl,
+  image: `${siteUrl}/images/profilephoto.JPG`,
+  description: `${fullName} (Val) is a developer and photographer based in Indonesia, building digital products and capturing moments.`,
   jobTitle: 'Developer & Photographer',
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'ID',
+  },
   sameAs: [
     'https://www.linkedin.com/in/nauvaluzlah',
     'https://github.com/Riverroll',

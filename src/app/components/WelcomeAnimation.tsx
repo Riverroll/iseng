@@ -31,7 +31,7 @@ export default function WelcomeAnimation() {
   const [landParams, setLandParams] = useState<LandParams | null>(null);
 
   const canvasRef    = useRef<HTMLCanvasElement>(null);
-  const welcomeH1Ref = useRef<HTMLHeadingElement>(null);
+  const welcomeH1Ref = useRef<HTMLDivElement>(null);
   const starsRef     = useRef<WarpStar[]>(Array.from({ length: 320 }, spawnStar));
   const speedTarget  = useRef(1);
   const speedCur     = useRef(1);
@@ -168,8 +168,9 @@ export default function WelcomeAnimation() {
           }
         >
           <div className="text-center select-none">
-            <h1
+            <div
               ref={welcomeH1Ref}
+              aria-hidden="true"
               className="text-[5rem] md:text-[9rem] font-bold text-white leading-none tracking-tight"
               style={{
                 textShadow:
@@ -177,7 +178,7 @@ export default function WelcomeAnimation() {
               }}
             >
               Val
-            </h1>
+            </div>
             <motion.p
               className="text-white/45 text-sm md:text-base mt-3 tracking-[0.4em] uppercase"
               animate={{ opacity: leaving ? 0 : 1 }}
