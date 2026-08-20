@@ -80,9 +80,9 @@ export default function AboutSection() {
           >
             <div className="space-y-4 text-white/60 leading-relaxed">
               <p>
-                I&apos;m Val — a developer and self-taught photographer based in Indonesia.
-                I build clean, functional web products and capture the world through a lens
-                when I&apos;m not at a keyboard.
+                I&apos;m Val — full name Nauval Uzlah — a developer and self-taught photographer
+                based in Indonesia. I build clean, functional web products and capture the world
+                through a lens when I&apos;m not at a keyboard.
               </p>
               <p>
                 My photography focuses on portrait and automotive work — finding the balance

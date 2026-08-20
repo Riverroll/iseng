@@ -71,6 +71,15 @@ const personJsonLd = {
     '@type': 'PostalAddress',
     addressCountry: 'ID',
   },
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Codenito',
+    url: 'https://codenito.id',
+  },
+  knowsAbout: [
+    'Next.js', 'React', 'TypeScript', 'Tailwind CSS',
+    'UI/UX Design', 'Photography', 'GSAP', 'Figma',
+  ],
   sameAs: [
     'https://www.linkedin.com/in/nauvaluzlah',
     'https://github.com/Riverroll',
