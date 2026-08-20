@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: '1uhCN41ibGTXlqggrpUhHv06952xJFSbgn6nmo6-pW4',
+    google: 'T8vivrxOtA1rgTB4A9-BVzBTe5VlfICqPySDt3rkLdQ',
   },
   icons: {
     icon: '/favicon.ico',
