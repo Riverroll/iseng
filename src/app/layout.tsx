@@ -28,6 +28,9 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
     },
   },
+  verification: {
+    google: '1uhCN41ibGTXlqggrpUhHv06952xJFSbgn6nmo6-pW4',
+  },
   icons: {
     icon: '/favicon.ico',
   },
