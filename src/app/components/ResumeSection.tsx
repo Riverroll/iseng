@@ -80,7 +80,7 @@ const education = [
   },
   {
     institution: "Universitas Indonesia",
-    degree: "S1 Computer Science (CCIT-FTUI)",
+    degree: "Professional Degree Computer Science (CCIT-FTUI)",
     period: "2021 – 2023",
     gpa: "3.00",
   },

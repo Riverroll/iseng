@@ -80,7 +80,7 @@ Work Experience:
 
 Education:
 - B.S. Information Technology – Asia E University | 2021–2025 | GPA 3.56
-- S1 Computer Science (CCIT-FTUI) – Universitas Indonesia | 2021–2023 | GPA 3.00
+- Professional Degree Computer Science (CCIT-FTUI) – Universitas Indonesia | 2021–2023 | GPA 3.00
 
 Core Tech Stack: React, Next.js, TypeScript, Node.js, Tailwind CSS, Laravel, PHP, Python, MySQL, MongoDB, WordPress, Odoo
 
