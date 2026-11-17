@@ -52,10 +52,13 @@ Photography: Focuses on portrait and automotive work. Music lover.
 Languages: Bahasa Indonesia (Native), English (Advanced)
 
 Work Experience:
-1. Mobile Development Intern – Mineral Alam Abadi Group | Internship | Apr 2026 – Present | Jakarta
-   - Built E2E and WebSocket test suites for the auction feature (bidding, realtime updates, payment flow)
-   - Verified production system reliability through live smoke testing
-   - Assisted with Flutter mobile app feature development and bug fixes
+1. Mineral Alam Abadi Group (MAA Group) | On-site | Jakarta | Apr 2026 – Present
+   - Business Analyst | Full-time | Oct 2026 – Present
+   - Business Analyst | Internship | Aug 2026 – Sep 2026
+   - Mobile Application Developer | Internship | Apr 2026 – Aug 2026 | West Jakarta
+     - Built E2E and WebSocket test suites for the auction feature (bidding, realtime updates, payment flow)
+     - Verified production system reliability through live smoke testing
+     - Assisted with Flutter mobile app feature development and bug fixes
 
 2. Frontend Engineer – RHP (PT. RHP Cipta Digital) | Contract | May 2025 – Mar 2026 | Jakarta
    - Develop international WordPress websites for US, Singapore, and China markets
