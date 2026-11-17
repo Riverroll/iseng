@@ -5,10 +5,28 @@ import { motion } from "framer-motion";
 const experience = [
   {
     company: "Mineral Alam Abadi Group",
-    role: "Mobile Development Intern",
-    type: "Internship",
-    period: "Apr 2026 – Present",
+    role: "Business Analyst",
+    type: "Full-time",
+    period: "Oct 2026 – Present",
     location: "Jakarta",
+    bullets: [],
+    color: "emerald",
+  },
+  {
+    company: "Mineral Alam Abadi Group",
+    role: "Business Analyst",
+    type: "Internship",
+    period: "Aug 2026 – Sep 2026",
+    location: "Jakarta",
+    bullets: [],
+    color: "emerald",
+  },
+  {
+    company: "Mineral Alam Abadi Group",
+    role: "Mobile Application Developer",
+    type: "Internship",
+    period: "Apr 2026 – Aug 2026",
+    location: "West Jakarta",
     bullets: [
       "Built E2E and WebSocket test suites for the auction feature (bidding, realtime updates, payment flow)",
       "Verified production system reliability through live smoke testing",
@@ -164,7 +182,7 @@ export default function ResumeSection() {
               <div className="space-y-10">
                 {experience.map((job, i) => (
                   <motion.div
-                    key={job.company}
+                    key={`${job.company}-${job.role}-${job.period}`}
                     initial={{ opacity: 0, x: -16 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -185,14 +203,14 @@ export default function ResumeSection() {
                           <span className={`text-xs px-2 py-0.5 rounded-full border ${colorMap[job.color]}`}>{job.type}</span>
                         </div>
                       </div>
-                      <ul className="mt-3 space-y-1.5">
+                      {job.bullets.length > 0 && <ul className="mt-3 space-y-1.5">
                         {job.bullets.map((b) => (
                           <li key={b} className="text-white/50 text-sm flex gap-2">
                             <span className="mt-1.5 w-1 h-1 rounded-full bg-white/20 shrink-0" />
                             {b}
                           </li>
                         ))}
-                      </ul>
+                      </ul>}
                     </div>
                   </motion.div>
                 ))}
